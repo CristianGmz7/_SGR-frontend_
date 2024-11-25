@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 //considerar que aqui falta que implementar metodos de busqueda
+//este es pagination basico, solo necesita el numero de pagina
 export const usePagination = (loadData) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);

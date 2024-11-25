@@ -6,7 +6,7 @@ export const getAdditionalServicesByHotelApi = async (hotelId) => {
       `/additionalServices/GetByHotel/${hotelId}`
     );
 
-    console.log(data);
+    // console.log(data);
 
     //mapear la data
     return data;

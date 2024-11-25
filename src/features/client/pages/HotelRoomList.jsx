@@ -65,6 +65,7 @@ export const HotelRoomList = () => {
       finishDate: finishDate.toISOString(),
     });
 
+    //volver a hacer la petición al backend
     setFetching(true);
   };
 

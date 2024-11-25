@@ -1,9 +1,9 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { HomePage, HotelRoomList, ReservationDetailsConfirm } from "../pages";
+import { EditReservation, HomePage, HotelRoomList, ReservationDetailsConfirm, YourReservations } from "../pages";
 import { Footer } from "../components/Footer";
 import { Nav } from "../components/Nav";
 import { SideBar } from "../components/SideBar";
-import { ReservationProvider } from "../contexts";
+import { ReservationEditProvider, ReservationProvider } from "../contexts";
 
 export const ClientRouter = () => {
   return (
@@ -32,8 +32,17 @@ export const ClientRouter = () => {
               />
             </Route>
 
-            {/* Ruta del context de editar reserva, creo que no será necesario */}
-            {/* Ruta home */}
+            <Route
+              element={
+                <ReservationEditProvider>
+                  <Outlet />
+                </ReservationEditProvider>
+              }
+            >
+              <Route path="/yourReservations" element={<YourReservations />}/>
+              <Route path="/editReservation/:reservationId" element={<EditReservation />}/>
+            </Route>
+
             <Route path="/*" element={<Navigate to={"/home"} />} />
           </Routes>
         </div>

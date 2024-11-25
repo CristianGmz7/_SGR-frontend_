@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createReservationApi } from "../../../shared/actions/reservations/reservations.action";
+import { createReservationApi, deleteReservationApi, editReservationApi, getAllReservationsByClientApi } from "../../../shared/actions/reservations/reservations.action";
 
 export const useReservations = () => {
 
@@ -24,11 +24,58 @@ export const useReservations = () => {
 
   // ----------------------------------------------------------------------------------------------------------------
 
+  const [reservationsByClientData, setReservationsByClientData] = useState({})
+  const loadReservationsByClient = async (page, clientId) => {
+    setIsLoading(true);
+    const result = await getAllReservationsByClientApi(page, clientId);
+    setReservationsByClientData(result);
+    setIsLoading(false);
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
+
+  const deleteReservation = async (id) => {
+    try {
+      setIsLoading(true);
+      const result = await deleteReservationApi(id)
+      return result;
+
+    } catch (error) {
+      console.error("Error al crear la cuenta:", error);
+      setError(error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
+
+  const editReservation = async (id, body) => {
+    try {
+      setIsLoading(true);
+      const result = await editReservationApi(id, body)
+      return result;
+
+    } catch (error) {
+      console.error("Error al crear la cuenta:", error);
+      setError(error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
 
   return {
     isLoading,
     error,
+    reservationsByClientData,
 
-    createReservation
+    createReservation,
+    loadReservationsByClient,
+    deleteReservation,
+    editReservation
   }
 }

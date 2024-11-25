@@ -86,7 +86,7 @@ export const SideBar = () => {
 
         {isAuthenticated && (
           <Link
-            to={"/SideBarReservation/"}
+            to={"/yourReservations"}
             className="flex items-center gap-4 text-blue-600 hover:text-blue-800 transition-colors duration-300"
           >
             <svg

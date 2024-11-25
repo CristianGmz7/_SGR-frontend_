@@ -8,14 +8,15 @@ import { useAdditionalServices, useReservations, useSinglePagination } from "../
 
 export const ReservationDetailsConfirm = () => {
   const { selectedRooms, daysInterval, dateInterval, 
-          selectedServices, toggleService, totalServices 
+    selectedServices, toggleService, totalServices 
   } = useReservation();
   const { hotelId } = useParams();
 
-  const { additionalServicesByHotelData, isLoading, error:errorAdditionalServices, loadAdditionalServicesByHotel } = useAdditionalServices();
+  const { additionalServicesByHotelData, isLoading, 
+    error:errorAdditionalServices, loadAdditionalServicesByHotel } = useAdditionalServices();
   const { setFetching } = useSinglePagination(loadAdditionalServicesByHotel, hotelId);
 
-  console.log(additionalServicesByHotelData);   //output: { }
+  // console.log(additionalServicesByHotelData);   //output: { }
   
   //el hook de useSelectedServices se pasó al Provider del context
   const { isLoading:isLoadingReservation, error, createReservation } = useReservations();
@@ -36,7 +37,7 @@ export const ReservationDetailsConfirm = () => {
       roomsList: selectedRooms.map(({ id }) => id),
       additionalServicesList: selectedServices.map(({ id }) => id),
       clientId: "usuarioDesdeFrontend",
-      //por el momento este dato se esta fijando en el backend
+      //por el momento este dato se esta obteniendo en el backend
     };
 
     try{

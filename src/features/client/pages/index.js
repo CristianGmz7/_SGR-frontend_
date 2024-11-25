@@ -1,3 +1,5 @@
+export * from './EditReservation'
 export * from './HomePage'
 export * from './HotelRoomList'
 export * from './ReservationDetailsConfirm'
+export * from './YourReservations'
