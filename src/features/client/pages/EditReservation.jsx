@@ -13,6 +13,8 @@ export const EditReservation = () => {
   const firstHotelRoomSelected =
     defaultState?.roomsInfoList?.at(0)?.hotelInfo;
 
+  // console.log("firstHotelRoomSelected", firstHotelRoomSelected);
+
   const { additionalServicesByHotelData, isLoading, 
     error:errorAdditionalServices, loadAdditionalServicesByHotel } = useAdditionalServices();
   
@@ -102,6 +104,8 @@ export const EditReservation = () => {
     reservation?.additionalServicesInfoList?.reduce(
       (acc, { price }) => acc + price, 0
   );
+
+  // console.log(reservation)
 
   return (
     <>
@@ -221,6 +225,7 @@ export const EditReservation = () => {
             }}
           />
           {/* <AddAdditioSerEditReservation reservation={reservation} /> */}
+
           <AddRoomsEditReservation
             reservation={reservation}
             onAddRoom={(room) => {

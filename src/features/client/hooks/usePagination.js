@@ -31,10 +31,12 @@ export const usePaginationGetRoomsByHotelAndBetweenDates = (loadData, filterStar
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
 
+  // console.log("hotelId", hotelId);
   // console.log("filterStartDate", filterStartDate);
   // console.log("filterEndDate", filterEndDate);
   useEffect(() => {
-    if (fetching) {
+    //añadio hotelId por la parte de editar reserva
+    if (fetching && hotelId) {
       loadData(hotelId, currentPage, filterStartDate, filterEndDate); // Carga los datos para la página actual
       setFetching(false); // Cambia el estado de fetching a false
     }

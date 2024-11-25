@@ -9,6 +9,7 @@ export const ChangeDatesEditReser = ({
   state: { startDate, finishDate },
 }) => {
  
+  // console.log(startDate)
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={esMx}>

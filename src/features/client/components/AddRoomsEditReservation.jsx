@@ -8,34 +8,41 @@ export const AddRoomsEditReservation = ({ reservation, onAddRoom }) => {
   // const [page, setPage] = useState(1);
   const [hotelId, setHotelId] = useState("");
 
+  const { roomsByHotelData, isLoading, error, loadRoomsByHotel } = useRooms();
+  console.log(roomsByHotelData);
+
+  // console.log(hotelId);
+
+    //OJALA QUE LA PAGINACION LOGRE FUNCIONAR PORQUE NO SE MANDA EL SETFECHING POR AQUI
+    // console.log("hotelId", hotelId);
+    const { currentPage, setFetching, handlePageChange } = usePaginationGetRoomsByHotelAndBetweenDates(loadRoomsByHotel, reservation?.startDate, reservation?.finishDate, hotelId);
+
   useEffect(() => {
     if (reservation?.roomsInfoList?.length > 0) {
       const firstRoom = reservation.roomsInfoList[0];
+      // console.log("firstRoom.hotelInfo.id", firstRoom.hotelInfo.id);
       setHotelId(firstRoom.hotelInfo.id); // Asignar el hotelId del primer cuarto
     }
   }, [reservation]);
 
-  const { roomsByHotelData, isLoading, error, loadRoomsByHotel } = useRooms();
-  //OJALA QUE LA PAGINACION LOGRE FUNCIONAR PORQUE NO SE MANDA EL SETFECHING POR AQUI
-  const { currentPage, setFetching, handlePageChange } = usePaginationGetRoomsByHotelAndBetweenDates(loadRoomsByHotel, reservation?.startDate, reservation?.finishDate, hotelId);
+  useEffect(() => { 
+    if (hotelId) { 
+      setFetching(true); 
+    } 
+  }, [hotelId, setFetching]);
+
 
   const selectedRooms = reservation?.roomsInfoList?.map(
     (room) => room.id
   );
 
-  //OJO CON ESTE ACCESO A PROPIEDADES QUE VIENEN DEL BACKEND (ESTADO COMO ESTABA ANTES)
-  // const rooms = (data?.data?.items?.rooms ?? [])?.filter(
-  //   (room) => !selectedRooms.includes(room.id)
-  // ); //Arreglo con datos de habitaciones disponibles
-  // // ESTE CAMPO NO SE NECESITA AQUI // const hotel = data?.data?.items?.hotel; //objeto con la info del hotel
-  // const pagination = data?.data;
-
   //ESTO SE HACE PARA VER QUE HABITACIONES PARA HACER LA FUNCIONALIDAD DE HACER COMO SWITCH CUANDO SE SELECCIONA O QUITA HABITACION
-  const rooms = (roomsByHotelData?.data?.items?.roomsInfoList ?? [])?.filter(
+  // se llama .rooms al final porque asi se declaro en el dto
+  const rooms = (roomsByHotelData?.data?.items?.rooms ?? [])?.filter(
     (room) => !selectedRooms.includes(room.id)
   ); //Arreglo con datos de habitaciones disponibles
-  // ESTE CAMPO NO SE NECESITA AQUI // const hotel = data?.data?.items?.hotel; //objeto con la info del hotel
 
+  // console.log(roomsByHotelData);
   return (
     <>
       <div className="separator my-5"></div>
