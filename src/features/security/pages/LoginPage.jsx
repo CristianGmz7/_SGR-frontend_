@@ -15,6 +15,7 @@ export const LoginPage = () => {
   const error = useAuthStore((state) => state.error);
   const message = useAuthStore((state) => state.message);
   const resetError = useAuthStore((state) => state.resetError);
+  const validateAuthentication = useAuthStore((state) => state.validateAuthentication);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,6 +40,7 @@ export const LoginPage = () => {
 
       setLoading(true);
       await login(formValues);
+      validateAuthentication();
       setLoading(false);
     }
   });

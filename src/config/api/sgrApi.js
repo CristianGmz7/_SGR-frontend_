@@ -83,13 +83,7 @@ sgrApi.interceptors.response.use(
     if (refreshingTokenPromise) {
       await refreshingTokenPromise;
       error.config.headers["Authorization"] = `Bearer ${getAuth().token}`;
-      return examenApi(error.config);
-    }
-
-    if (refreshingTokenPromise) {
-      await refreshingTokenPromise;
-      error.config.headers["Authorization"] = `Bearer ${getAuth().token}`;
-      return examenApi(error.config);
+      return sgrApi(error.config);
     }
 
     return Promise.reject(error);

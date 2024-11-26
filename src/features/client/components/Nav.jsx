@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ProtectedComponentAdminPage } from '../../../shared/components/ProtectedComponentAdminPage';
+import { rolesListConstant } from '../../../shared/constants/roles-list.constant';
 
 export const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +32,14 @@ export const Nav = () => {
           Hondu Reservas
         </Link>
         <nav className="hidden md:flex md:gap-6 lg:gap-8">
+          <ProtectedComponentAdminPage requiredRoles={[rolesListConstant.PAGEADMIN]}>
+            <Link 
+              to={"/administrationPage/dashboardAdminPage"}
+              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            >
+              Administración Pagina
+            </Link>
+          </ProtectedComponentAdminPage>
           <Link 
             to={"/home"}
             className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
@@ -56,6 +66,14 @@ export const Nav = () => {
         {isOpen && (
           <div ref={menuRef} className="absolute top-0 left-0 w-full bg-blue-50 p-4 shadow-lg rounded-b-lg">
             <nav className="grid gap-4 py-6 px-4">
+              <ProtectedComponentAdminPage requiredRoles={[rolesListConstant.PAGEADMIN]}>
+                <Link
+                  to={"/administrationPage/dashboardAdminPage"}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                >
+                  Administración Pagina
+                </Link>
+              </ProtectedComponentAdminPage>
               <Link 
                 to={"/home"}
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
