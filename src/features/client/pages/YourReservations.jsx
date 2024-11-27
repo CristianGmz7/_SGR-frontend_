@@ -1,13 +1,14 @@
 // import { ReservationCard } from "../components/ReservationCard";
 
 import { CircularProgress, Pagination } from "@mui/material";
-import { usePagination, useReservations } from "../hooks";
+import { usePagination, usePaginationYourReservations, useReservations } from "../hooks";
 import { ReservationCard } from "../components";
 
 export const YourReservations = () => {
   //custom hooks
   const { reservationsByClientData, error, isLoading, loadReservationsByClient} = useReservations();
-  const { currentPage, setFetching, handlePageChange } = usePagination(loadReservationsByClient);
+  // const { currentPage, setFetching, handlePageChange } = usePagination(loadReservationsByClient);
+  const { currentPage, setFetching, handlePageChange } = usePaginationYourReservations(loadReservationsByClient);
 
   // Cálculo de las habitaciones para mostrar en la página actual  
 

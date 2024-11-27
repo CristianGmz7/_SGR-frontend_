@@ -4,24 +4,39 @@ import { useState, useEffect } from "react";
 //este es pagination basico, solo necesita el numero de pagina
 export const usePagination = (loadData) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     if (fetching) {
-      loadData(currentPage); // Carga los datos para la página actual
+      loadData(searchTerm, currentPage); // Carga los datos para la página actual
       setFetching(false); // Cambia el estado de fetching a false
     }
-  }, [fetching, currentPage, loadData]);
+  }, [fetching, currentPage, loadData, searchTerm]);
 
   const handlePageChange = (_event, page) => {
     setCurrentPage(page); // Actualiza la página actual
     setFetching(true); // Establece fetching a true para cargar nuevos datos
   };
 
+  const handleSearchTermChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    setFetching(true);
+  }
+
+  const handleSubmit  = (e) => {
+    e.preventDefault();    
+    console.log('Buscando...');
+    setFetching(true);
+  }
+
   return {
     currentPage,
+    searchTerm,
     handlePageChange,
     setFetching,
+    handleSearchTermChange,
+    handleSubmit
   };
 };
 
@@ -66,6 +81,29 @@ export const useSinglePagination = (loadData, foreignId) => {
   }, [fetching, foreignId, loadData]);
 
   return {
+    setFetching,
+  };
+}
+
+export const usePaginationYourReservations = (loadData) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (fetching) {
+      loadData(currentPage); // Carga los datos para la página actual
+      setFetching(false); // Cambia el estado de fetching a false
+    }
+  }, [fetching, currentPage, loadData]);
+
+  const handlePageChange = (_event, page) => {
+    setCurrentPage(page); // Actualiza la página actual
+    setFetching(true); // Establece fetching a true para cargar nuevos datos
+  };
+
+  return {
+    currentPage,
+    handlePageChange,
     setFetching,
   };
 }

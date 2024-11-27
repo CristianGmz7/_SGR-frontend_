@@ -2,13 +2,16 @@
 import { CircularProgress, Pagination } from "@mui/material";
 import { useHotels, usePagination } from "../hooks";
 import { HotelCard } from "../components";
+import { FaSearch } from "react-icons/fa";
+
 
 export const HomePage = () => {
   // const { handlePageChange, page } = usePagination();
   // const { paginatedHotels, loading, error } = useHotel(page);
 
   const { hotelsData, isLoading, error, loadHotelsData } = useHotels();
-  const { currentPage, handlePageChange, setFetching } = usePagination(loadHotelsData);
+  const { currentPage, searchTerm, handlePageChange, setFetching, handleSearchTermChange, handleSubmit } = usePagination(loadHotelsData);
+
 
   return (
     <div className="bg-background text-foreground">
@@ -16,6 +19,24 @@ export const HomePage = () => {
         <h1 className="text-4xl font-bold text-center mb-8">
           Bienvenidos al Sistema de Gestión de Reservas de Hotel
         </h1>
+        <form onSubmit={handleSubmit} className="flex items-center bg-white rounded-lg mb-4">
+          <div className="w-full">
+            <input 
+              value={searchTerm}
+              onChange={(e) => handleSearchTermChange(e.target.value)}
+              type="search"
+              className="w-full px-4 py-1 text-gray-800 rounded-full focus:outline-none"
+              placeholder="Buscar Hoteles"
+            />
+          </div>
+          <div>
+            <button type="submit"
+            className="flex items-center bg-unah-yellow justify-center w-12 h-12 text-black rounded-r-lg" >
+              <FaSearch className="h-6 w-6" />
+            </button>
+          </div>
+        </form>
+
         <section className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
           {isLoading ? (
           <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70">

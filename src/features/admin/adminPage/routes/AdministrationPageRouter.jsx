@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Footer, Nav, SideBar } from "../../../client/components"
-import { DashboardAdminPage } from "../pages"
+import { CreateHotelPage, DashboardAdminPage } from "../pages"
 
 export const AdministrationPageRouter = () => {
   return (
@@ -11,6 +11,7 @@ export const AdministrationPageRouter = () => {
         <div className="flex-1 ml-14 md:ml-48">
           <Routes>
             <Route path="/dashboardAdminPage" element={<DashboardAdminPage />}/>
+            <Route path="/createHotel" element={<CreateHotelPage />}/>
             <Route path="/*" element={<Navigate to={"/dashboardAdminPage"}/>} />
           </Routes>
         </div>
