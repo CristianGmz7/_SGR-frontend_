@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { ProtectedComponentAdminPage } from '../../../shared/components/ProtectedComponentAdminPage';
-import { rolesListConstant } from '../../../shared/constants/roles-list.constant';
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { ProtectedComponentAdminPage } from "../../../shared/components/ProtectedComponentAdminPage";
+import { rolesListConstant } from "../../../shared/constants/roles-list.constant";
+import { ProtectedComponentHotelPage } from "../../../shared/components/ProtectedComponentHotelPage";
 
 export const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,46 +16,70 @@ export const Nav = () => {
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
   return (
     <header className="w-full bg-blue-50 border-b border-blue-200 shadow-lg relative z-20">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6 lg:px-8">
-        <Link to="/home" href="#" className="text-lg font-bold text-blue-600 hover:text-blue-800 transition-colors duration-300">
+        <Link
+          to="/home"
+          href="#"
+          className="text-lg font-bold text-blue-600 hover:text-blue-800 transition-colors duration-300"
+        >
           Hondu Reservas
         </Link>
         <nav className="hidden md:flex md:gap-6 lg:gap-8">
-          <ProtectedComponentAdminPage requiredRoles={[rolesListConstant.PAGEADMIN]}>
-            <Link 
+          <ProtectedComponentAdminPage
+            requiredRoles={[rolesListConstant.PAGEADMIN]}
+          >
+            <Link
               to={"/administrationPage/dashboardAdminPage"}
               className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
             >
               Administración Pagina
             </Link>
           </ProtectedComponentAdminPage>
-          <Link 
+
+          <ProtectedComponentHotelPage
+            requiredRoles={[rolesListConstant.HOTELADMIN]}
+          >
+            <Link
+              to={"/administrationHotelPage/dashboardHotelPage"}
+              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            >
+              Administración Hotel
+            </Link>
+          </ProtectedComponentHotelPage>
+
+          <Link
             to={"/home"}
             className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
           >
             Inicio
           </Link>
-          <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300">
+          <a
+            href="#"
+            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+          >
             Contacto
           </a>
-          <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300">
+          <a
+            href="#"
+            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+          >
             Preguntas Frecuentes
           </a>
         </nav>
-        <button 
-          type='button'
+        <button
+          type="button"
           className="md:hidden text-blue-600 hover:text-blue-800 transition-colors duration-300"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -64,9 +89,14 @@ export const Nav = () => {
           <span className="sr-only">Toggle navigation</span>
         </button>
         {isOpen && (
-          <div ref={menuRef} className="absolute top-0 left-0 w-full bg-blue-50 p-4 shadow-lg rounded-b-lg">
+          <div
+            ref={menuRef}
+            className="absolute top-0 left-0 w-full bg-blue-50 p-4 shadow-lg rounded-b-lg"
+          >
             <nav className="grid gap-4 py-6 px-4">
-              <ProtectedComponentAdminPage requiredRoles={[rolesListConstant.PAGEADMIN]}>
+              <ProtectedComponentAdminPage
+                requiredRoles={[rolesListConstant.PAGEADMIN]}
+              >
                 <Link
                   to={"/administrationPage/dashboardAdminPage"}
                   className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
@@ -74,16 +104,34 @@ export const Nav = () => {
                   Administración Pagina
                 </Link>
               </ProtectedComponentAdminPage>
-              <Link 
+
+              <ProtectedComponentHotelPage
+                requiredRoles={[rolesListConstant.HOTELADMIN]}
+              >
+                <Link
+                  to={"/administrationHotelPage/dashboardHotelPage"}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                >
+                  Administración Hotel
+                </Link>
+              </ProtectedComponentHotelPage>
+
+              <Link
                 to={"/home"}
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
               >
                 Inicio
               </Link>
-              <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300">
+              <a
+                href="#"
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+              >
                 Contacto
               </a>
-              <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300">
+              <a
+                href="#"
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+              >
                 Preguntas Frecuentes
               </a>
             </nav>

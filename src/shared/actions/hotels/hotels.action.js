@@ -14,10 +14,36 @@ export const getAllHotelsApi = async (searchTerm = "", page = 1) => {
   }
 }
 
+export const getHotelByIdApi = async (id) => {
+  try{
+    const { data } = await sgrApi.get(
+      `/hotels/${id}`
+    );  
+    return data;
+  }
+  catch(error){
+    console.error(error);
+    return error?.response?.data;
+  }
+}
+
 export const createHotelApi = async (hotelDto) => {
   try{
     const {data} = await sgrApi.post(
       `/hotels`, hotelDto
+    );
+    return data;
+  }
+  catch(error){
+    console.error(error);
+    return error?.response?.data;
+  }
+}
+
+export const editHotelApi = async (id, body) => {
+  try{
+    const {data} = await sgrApi.put(
+      `/hotels/${id}`, body
     );
     return data;
   }
