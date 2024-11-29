@@ -1,13 +1,40 @@
-//Componente que renderiza una tarjeta con la información de una habitación individual en la pagina que muestre
-//la lista de habitaciones
-
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-//room es la data del room que acaba se acaba de recibir del .map
-//isRoomSelected
-//toggleRoomSelection
-export const RoomCard = ({ room, isEditingOrCreating = false }) => {
+export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
+
+  const navigate = useNavigate();
+
+  const [existsAccountDelete, setExistsAccountDelete] = useState(false);
+
+  //sirve para variar entre confirmar o no confirmar eliminación
+  const handleToggleDeleteRoom = () => {
+    setExistsAccountDelete(!existsAccountDelete)
+  }
+
+  //esta función tiene que tener hook de eliminar y posiblemente un navigate
+  const handleConfirmDeleteRoom = async (id) => {
+    console.log("Habitacion eliminada:", id);
+
+    try{
+      const result = await deleteRoom(id);
+  
+      if(result.status){
+        toast.success("Habitación eliminada correctamente")
+        navigate('/administrationHotelPage/dashboardHotelPage');
+      }else{
+      toast.error(result.message);
+      }
+    }
+    catch(error){
+      console.error("Error al eliminar la habitación:", error);
+    }
+
+    setExistsAccountDelete(!existsAccountDelete);     //volver a mostrar editar y eliminar
+  }
+
   return (
     <div className="grid gap-4 relative group">
       <img
@@ -30,24 +57,45 @@ export const RoomCard = ({ room, isEditingOrCreating = false }) => {
         </div>
         {isEditingOrCreating ? (
           <></>
-        ) : (
+        ) : existsAccountDelete ? (
           <>
             <Button
               variant="contained"
               color={"warning"}
-              //falta onclick
+              onClick={handleToggleDeleteRoom}
             >
-              Editar
+              Cancelar eliminación
             </Button>
+          <Button
+            variant="contained"
+            color={"error"}
+            onClick={() => handleConfirmDeleteRoom(room.id)}
+          >
+            Confirmar eliminación
+          </Button>
+        </>
+        ) : (
+          <>
+            <Link
+              to={`/administrationHotelPage/dashboardHotelPage/editRoom/${room.id}`}
+            >
+              <Button
+                variant="contained"
+                color={"warning"}
+              >
+                Editar
+              </Button>
+            </Link>
             <Button
               variant="contained"
               color={"error"}
-              //falta onclick
+              onClick={handleToggleDeleteRoom}
             >
               Eliminar
             </Button>
           </>
-        )}
+        )
+      }
       </div>
     </div>
   );

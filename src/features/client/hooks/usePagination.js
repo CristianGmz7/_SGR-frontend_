@@ -107,3 +107,41 @@ export const usePaginationYourReservations = (loadData) => {
     setFetching,
   };
 }
+
+export const usePaginationAdminHotel = (loadData, foreignId) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (fetching) {
+      loadData(foreignId, searchTerm, currentPage); // Carga los datos para la página actual
+      setFetching(false); // Cambia el estado de fetching a false
+    }
+  }, [fetching, currentPage, loadData, searchTerm]);
+
+  const handlePageChange = (_event, page) => {
+    setCurrentPage(page); // Actualiza la página actual
+    setFetching(true); // Establece fetching a true para cargar nuevos datos
+  };
+
+  const handleSearchTermChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    setFetching(true);
+  }
+
+  const handleSubmit  = (e) => {
+    e.preventDefault();    
+    console.log('Buscando...');
+    setFetching(true);
+  }
+
+  return {
+    currentPage,
+    searchTerm,
+    handlePageChange,
+    setFetching,
+    handleSearchTermChange,
+    handleSubmit
+  };
+}

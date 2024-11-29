@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createRoomApi, getAllRoomsByAdminHotelApi } from "../../../../shared/actions/rooms"
+import { createRoomApi, deleteRoomApi, editRoomApi, getAllRoomsByAdminHotelApi, getRoomByIdApi } from "../../../../shared/actions/rooms"
 
 export const useRooms = () => {
   const [roomsData, setRoomsData] = useState({})
@@ -14,6 +14,15 @@ export const useRooms = () => {
   }
 
   // ----------------------------------------------------------------------------------------------------------------
+  const [roomData, setRoomData] = useState({});
+  const loadRoomData = async (id) => {
+    setIsLoading(true);
+    const result = await getRoomByIdApi(id);
+    setRoomData(result);
+    setIsLoading(false);
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
 
   const createRoom = async (body) => {
     try{
@@ -22,7 +31,7 @@ export const useRooms = () => {
       return result;
     }
     catch(error){
-      console.error("Error al crear la cuenta:", error);
+      console.error("Error al crear la habitación:", error);
       setError(error);
     }
     finally{
@@ -32,13 +41,50 @@ export const useRooms = () => {
 
   // ----------------------------------------------------------------------------------------------------------------
 
+  const editRoom = async (id, body) => {
+    try{
+      setIsLoading(true);
+      const result = await editRoomApi(id, body);
+      return result;
+    }
+    catch(error){
+      console.error("Error al editar la reservación:", error);
+      setError(error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
+
+  const deleteRoom = async (id) => {
+    try{
+      setIsLoading(true);
+      const result = await deleteRoomApi(id);
+      return result;
+    }
+    catch(error){
+      console.error("Error al eliminar la reservación:", error);
+      setError(error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------------------------
 
   return {
     roomsData,
     isLoading,
     error,
+    roomData,
 
     loadRoomsHotelData,
-    createRoom
+    createRoom,
+    loadRoomData,
+    editRoom,
+    deleteRoom
   }
 }

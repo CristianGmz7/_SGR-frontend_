@@ -21,6 +21,7 @@ export const CreateRoomPage = () => {
     <div className="flex h-full">
       <CreateRoomForm roomDto={roomDto} setRoomDto={setRoomDto} />
       {/* <RoomPreview roomDto={roomDto}/> */}
+      {/* se quitó el preview y en lugar de eso se colocó el RoomCard para mostrar la info necesaria mandando props */}
       <RoomCard room={roomDto} isEditingOrCreating={true}/>
     </div>
   )

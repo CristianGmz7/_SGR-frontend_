@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Footer, Nav, SideBar } from "../../../client/components"
-import { AdditionalServicesPage, CreateRoomPage, DashboardHotelPage, EditHotelPage, ReservationsPage, RoomsPage } from "../pages"
+import { AdditionalServicesPage, CreateRoomPage, DashboardHotelPage, EditHotelPage, EditRoomPage, ReservationsPage, RoomsPage } from "../pages"
 
 export const AdministrationHotelRouter = () => {
   return (
@@ -16,6 +16,7 @@ export const AdministrationHotelRouter = () => {
             <Route path="/dashboardHotelPage/additionalServicesPage/:hotelId" element={<AdditionalServicesPage />}/>
             <Route path="/dashboardHotelPage/reservationsPage/:hotelId" element={<ReservationsPage />}/>
             <Route path="/dashboardHotelPage/createRoom/:hotelId" element={<CreateRoomPage />}/>
+            <Route path="/dashboardHotelPage/editRoom/:roomId" element={<EditRoomPage />}/>
             <Route path="/*" element={<Navigate to={"/dashboardHotelPage"}/>} />
           </Routes>
         </div>
