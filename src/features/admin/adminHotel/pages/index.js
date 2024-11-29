@@ -1,2 +1,6 @@
 export * from './DashboardHotelPage'
 export * from './EditHotelPage'
+export * from './RoomsPage'
+export * from './AdditionalServicesPage'
+export * from './ReservationsPage'
+export * from './CreateRoomPage'

@@ -46,7 +46,7 @@ export const EditHotelForm = ({setHotelDto, hotelDto, editHotelInitValues, isLoa
 
   return (
     <div className="w-1/2 p-4 overflow-y-auto">
-      <h2 className="text-2xl font-bold mb-4">Crear Nuevo Hotel</h2>
+      <h2 className="text-2xl font-bold mb-4">Editar Hotel</h2>
       <Formik
         initialValues={editHotelInitValues}
         validationSchema={editHotelValidationSchema}

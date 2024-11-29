@@ -15,3 +15,29 @@ export const getAllRoomsByHotelApi = async (hotelId, page, filterStartDate, filt
     return error?.response?.data;
   }
 }
+
+export const getAllRoomsByAdminHotelApi = async (id, searchTerm, page) => {
+  try {
+    const { data } = await sgrApi.get(
+      `/rooms/GetByAdminHotel/${id}?searchTerm=${searchTerm}&page=${page}`
+    );
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error?.response?.data;
+  }
+}
+
+export const createRoomApi = async (body) => {
+  try{
+    const {data} = await sgrApi.post(
+      `/rooms`, body
+    );
+    return data;
+  }
+  catch(error){
+    console.error(error);
+    return error?.response?.data;
+  }
+}
