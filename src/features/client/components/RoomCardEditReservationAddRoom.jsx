@@ -27,7 +27,7 @@ export const RoomCardEditReservationAddRoom = ({ room,onAdd }) => {
           // onClick={() => toggleRoomSelection(room)}
         >
           {/* {isRoomSelected(room.id) ? "Cancelar reserva" : "Agregar a Reserva"} */}
-          Implementar logica
+          Agregar a la reserva
         </Button>
       </div>
     </div>

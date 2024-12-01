@@ -52,3 +52,29 @@ export const editReservationApi = async (id, body) => {
     return error?.response?.data;
   }
 }
+
+export const getAllReservationsByHotelApi = async (hotelId, page = 1) => {
+  try{
+    const {data} = await sgrApi.get(
+      `/reservations/GetReservationsByHotel/${hotelId}?page=${page}`
+    );
+    return data;
+  }
+  catch(error){
+    console.error(error);
+    return error?.response?.data;
+  }
+}
+
+export const getReservationByIdApi = async (id) => {
+  try{
+    const {data} = await sgrApi.get(
+      `/reservations/${id}`
+    );
+    return data;
+  }
+  catch(error){
+    console.error(error);
+    return error?.response?.data;
+  }
+}

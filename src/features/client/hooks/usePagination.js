@@ -108,6 +108,7 @@ export const usePaginationYourReservations = (loadData) => {
   };
 }
 
+//este se usa para las rooms de admin hotel
 export const usePaginationAdminHotel = (loadData, foreignId) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -144,4 +145,28 @@ export const usePaginationAdminHotel = (loadData, foreignId) => {
     handleSearchTermChange,
     handleSubmit
   };
+}
+
+//este se usa para ver todas las reservaciones de un hotel
+export const usePaginationReservationsByHotel = (loadData, foreignId) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (fetching) {
+      loadData(foreignId, currentPage); // Carga los datos para la página actual
+      setFetching(false); // Cambia el estado de fetching a false
+    }
+  }, [fetching, currentPage, loadData]);
+
+  const handlePageChange = (_event, page) => {
+    setCurrentPage(page); // Actualiza la página actual
+    setFetching(true); // Establece fetching a true para cargar nuevos datos
+  };
+  
+  return {
+    currentPage,
+    handlePageChange,
+    setFetching
+  }
 }

@@ -71,12 +71,6 @@ export const AddRoomsEditReservation = ({ reservation, onAddRoom }) => {
           key={roomsByHotelData?.data?.currentPage}
         />
       </div>
-
-      <p>Nuevo Total: $$$</p>
-      <p>
-        Replicar el ReservationCard para mostrar como quedaria la nueva
-        reservacion
-      </p>
     </>
   );
 };

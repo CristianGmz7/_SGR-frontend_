@@ -1,10 +1,10 @@
-import { RoomCard } from "../components";
+import { RoomCard } from "../../../client/components";
+import {
+  usePaginationGetRoomsByHotelAndBetweenDates,
+  useRooms,
+} from "../../../client/hooks";
+import { useCreateReservation } from "../contexts/reservationCreateContext";
 
-import { useAuthStore } from "../../security/store";
-import { useReservation } from "../contexts";
-import { usePaginationGetRoomsByHotelAndBetweenDates, useRooms } from "../hooks";
-
-// import { DatePicker, LocalizationProvider, AdapterDayjs } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -19,11 +19,14 @@ import { Link, useParams } from "react-router-dom";
 
 import { useState } from "react";
 
-
 export const HotelRoomList = () => {
-
-  const { selectedRooms, toggleRoomSelection, isRoomSelected, setDayInterval, } =
-    useReservation();
+  const {
+    clientToReservation,
+    selectedRooms,
+    toggleRoomSelection,
+    isRoomSelected,
+    setDayInterval,
+  } = useCreateReservation();
 
   //Crear variable de estado para las fecha inicial y final
   let sDate = new Date();
@@ -45,14 +48,18 @@ export const HotelRoomList = () => {
   const { hotelId } = useParams();
 
   const { roomsByHotelData, isLoading, error, loadRoomsByHotel } = useRooms();
-  const { currentPage, handlePageChange, setFetching } = usePaginationGetRoomsByHotelAndBetweenDates(loadRoomsByHotel, filter?.startDate, filter?.finishDate, hotelId);
+  const { currentPage, handlePageChange, setFetching } =
+    usePaginationGetRoomsByHotelAndBetweenDates(
+      loadRoomsByHotel,
+      filter?.startDate,
+      filter?.finishDate,
+      hotelId
+    );
 
   // Función para manejar la validación y aplicar el filtro de fechas
   const handleFilterClick = () => {
-
     //verifica que fecha inicio no se mayor que fecha fin
     if (startDate > finishDate) {
-
       toast.warn("La fecha de inicio no puede ser mayor a la fecha de fin");
       return;
     }
@@ -69,14 +76,9 @@ export const HotelRoomList = () => {
     setFetching(true);
   };
 
-  //autenticación para crear reservas
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
   return (
-    //LocalizationProvider para configurar el idioma de los DatePickers
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={esMx}>
       <div className="w-full max-w-6xl mx-auto py-8 px-4 md:px-6">
-        {/* Inicio del div que sirve para agrupar */}
         <div className="grid gap-6 md:gap-8">
           {/* Inicio de div información hotel y campos de check-in y check-out*/}
           <div className="flex flex-col gap-4">
@@ -131,9 +133,7 @@ export const HotelRoomList = () => {
           </div>
           {/* Fin de div información hotel y campos de check-in y check-out*/}
 
-
           {/* Inicio de contenedor de habitaciones por paginación */}
-          {/* Si la petición del filtro aun esta en curso mostrar carga de la página */}
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <CircularProgress />
@@ -147,7 +147,7 @@ export const HotelRoomList = () => {
                   room={room} 
                   isRoomSelected={isRoomSelected}
                   toggleRoomSelection={toggleRoomSelection} 
-                  isAuthenticated={isAuthenticated}
+                  isAuthenticated={true}
                 />
               ))}
             </div>
@@ -155,9 +155,9 @@ export const HotelRoomList = () => {
           {/* Fin de contenedor de habitaciones por paginación */}
 
           {/* Inicio Botón implementado cuando se selecciona habitaciones */}
-          {isAuthenticated && selectedRooms.length > 0 && (
+          {selectedRooms.length > 0 && (
             <div className="mt-8">
-              <Link to={`/reservationDetailsConfirm/${hotelId}`}>
+              <Link to={`/administrationHotelPage/dashboardHotelPage/confirmReservationPage/${hotelId}`}>
                 <Button
                   variant="contained"
                   color="warning"
@@ -173,8 +173,9 @@ export const HotelRoomList = () => {
             </div>
           )}
           {/* Fin Botón implementado cuando se selecciona habitaciones */}
+
         </div>
-        {/* Fin del div que sirve para agrupar */}
+
         <div className="flex mt-5 justify-center">
           <Pagination
             count={roomsByHotelData?.data?.totalPages}
