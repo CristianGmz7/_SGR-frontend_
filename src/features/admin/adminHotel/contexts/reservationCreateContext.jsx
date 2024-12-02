@@ -43,24 +43,50 @@ export const CreateReservationProvider = ({ children }) => {
     selectedRooms?.rooms?.some((room) => room.id === roomId);
 
   //recibe la fecha inicio y fecha fin de la reserva y hace la resta 
-  const setDayInterval = (startDate, endDate) => {
-    const startDay = startDate.get("date");
-    const endDay = endDate.get("date");
-    let numberDays = endDay - startDay;
+  // const setDayInterval = (startDate, endDate) => {
+  //   const startDay = startDate.get("date");
+  //   const endDay = endDate.get("date");
+  //   let numberDays = endDay - startDay;
 
-    //si la fecha fin es igual a la fecha inicio, colocar cantidad de 1 dia
-    if (startDay === endDay) numberDays = 1;
-    //se mantiene todo excepto lo días, se sobreescriben
+  //   //si la fecha fin es igual a la fecha inicio, colocar cantidad de 1 dia
+  //   if (startDay === endDay) numberDays = 1;
+  //   //se mantiene todo excepto lo días, se sobreescriben
+
+  //   setSelectedRooms({
+  //     ...selectedRooms,
+  //     days: numberDays,
+  //     startDate: startDate.toISOString(),
+  //     endDate: endDate.toISOString(),
+  //   });
+  // };
+
+  //Nueva implementación se paso el lógica de useSelectedServices al context
+  const setDayInterval = (startDate, endDate) => {
+    const startDay = new Date(startDate);
+    let finishDay = new Date(endDate);
+
+    // Normaliza ambas fechas a la medianoche, solo se necesita calcular los días
+    startDay.setHours(0, 0, 0, 0);
+    finishDay.setHours(0, 0, 0, 0);
+
+    if (startDay.getTime() === finishDay.getTime()) {
+      // Agrega un día a finishDate
+      finishDay.setDate(finishDay.getDate() + 1);
+    }
+
+    const differenceInTime = finishDay - startDay;
+
+    // Convertir la diferencia de milisegundos a días
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
     setSelectedRooms({
       ...selectedRooms,
-      days: numberDays,
+      days: differenceInDays,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
     });
   };
-
-  //Nueva implementación se paso el lógica de useSelectedServices al context
+  
   const [selectedServices, setSelectedServices] = useState([]);
   const [totalServices, setTotalServices] = useState(0);
 

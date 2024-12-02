@@ -9,7 +9,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { components } from "react-select";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useHotels } from "../hooks";
 
 export const CreateHotelForm = ({setHotelDto, hotelDto}) => {
@@ -105,6 +105,16 @@ const CustomDropdownIndicator = (props) => (
 
   return (
     <div className="w-1/2 p-4 overflow-y-auto">
+        <div>
+          <Link
+            //a medida se coloquen numeros se regresa la cantidad de "nodos" que se especifique
+            to={-1}
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <ChevronLeftIcon className="w-5 h-5" />
+            Regresar
+          </Link>
+        </div>
       <h2 className="text-2xl font-bold mb-4">Crear Nuevo Hotel</h2>
       <Formik
         initialValues={newHotelInitValues}
@@ -347,3 +357,22 @@ const CustomDropdownIndicator = (props) => (
     </div>
   );
 };
+
+function ChevronLeftIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}

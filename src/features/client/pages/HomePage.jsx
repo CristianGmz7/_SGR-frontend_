@@ -17,7 +17,7 @@ export const HomePage = () => {
     <div className="bg-background text-foreground">
       <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
         <h1 className="text-4xl font-bold text-center mb-8">
-          Bienvenidos al Sistema de Gestión de Reservas de Hotel
+          Bienvenido a Hondu Reservas
         </h1>
         <form onSubmit={handleSubmit} className="flex items-center bg-white rounded-lg mb-4">
           <div className="w-full">
@@ -68,7 +68,7 @@ export const HomePage = () => {
             <h3 className="text-xl font-bold mb-2">Contacto</h3>
             <p className="text-muted-foreground mb-4">
               Puedes comunicarte con nosotros a través de nuestro formulario de
-              contacto o por teléfono.
+              contacto.
             </p>
             <a
               href="#"

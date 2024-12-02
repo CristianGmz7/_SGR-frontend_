@@ -155,7 +155,8 @@ export const HotelRoomList = () => {
           {/* Fin de contenedor de habitaciones por paginación */}
 
           {/* Inicio Botón implementado cuando se selecciona habitaciones */}
-          {selectedRooms.length > 0 && (
+          {/* {selectedRooms.length > 0 && ( */}
+          {selectedRooms.length > 0 && (finishDate > startDate) && (
             <div className="mt-8">
               <Link to={`/administrationHotelPage/dashboardHotelPage/confirmReservationPage/${hotelId}`}>
                 <Button

@@ -2,11 +2,13 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useReservations } from "../../../client/hooks";
 
 //traer el hook de useReservations para eliminar
 export const DeleteEditReservationCard = ({ reservation, isReservationDisabled, hotelId }) => {
   const [isEditButtonOpen, setIsEditButtonOpen] = useState(false);
   const [isDeleteButtonOpen, setIsDeleteButtonOpen] = useState(false);
+  const { isLoading, error, deleteReservation } = useReservations();
 
   const navigate = useNavigate();
 
@@ -19,26 +21,26 @@ export const DeleteEditReservationCard = ({ reservation, isReservationDisabled, 
   const handleEditReservation = () => {
     setIsEditButtonOpen(!isEditButtonOpen);
     setIsDeleteButtonOpen(false);
-    navigate(`/administrationHotelPage/dashboardHotelPage/editReservation/${reservation.id}`);
+    navigate(`/administrationHotelPage/dashboardHotelPage/editReservation/${reservation.id}/${hotelId}`);
   };
 
   const handleDeleteReservation = async (id) => {
 
-    console.log("Aqui se debe hacer petición para eliminar")
-    // try{
-    //   const result = await deleteReservation(id);
+    // console.log("Aqui se debe hacer petición para eliminar")
+    try{
+      const result = await deleteReservation(id);
 
-    //   if(result.status){
-    //     toast.success("Reserva eliminada correctamente")
-    //     navigate("/");
-    //   }else{
-    //     toast.error("Error al eliminar la reserva")
-    //   }
-    // }
-    // catch(error){
-    //   console.error("Error al eliminar la reserva:", error);
-    //   toast.error("Ocurrió un error al eliminar la reserva");
-    // }
+      if(result.status){
+        toast.success("Reserva eliminada correctamente")
+        navigate("/administrationHotelPage/dashboardHotelPage");
+      }else{
+        toast.error("Error al eliminar la reserva")
+      }
+    }
+    catch(error){
+      console.error("Error al eliminar la reserva:", error);
+      toast.error("Ocurrió un error al eliminar la reserva");
+    }
   }
 
   return (

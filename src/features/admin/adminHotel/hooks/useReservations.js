@@ -20,6 +20,7 @@ export const useReservations = () => {
     const result = await getReservationByIdApi(id);
     setReservationByIdData(result);
     setIsLoading(false);
+    return result
   }
 
   return {

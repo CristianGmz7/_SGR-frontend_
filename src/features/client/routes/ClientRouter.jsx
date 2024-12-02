@@ -4,6 +4,7 @@ import { Footer } from "../components/Footer";
 import { Nav } from "../components/Nav";
 import { SideBar } from "../components/SideBar";
 import { ReservationEditProvider, ReservationProvider } from "../contexts";
+import { ProtectedLayoutIsAuthenticated } from "../../../shared/components";
 
 export const ClientRouter = () => {
   return (
@@ -26,21 +27,27 @@ export const ClientRouter = () => {
                 path="/hotelRoomList/:hotelId"
                 element={<HotelRoomList />}
               />
-              <Route
-                path="/reservationDetailsConfirm/:hotelId"
-                element={<ReservationDetailsConfirm />}
-              />
-            </Route>
 
-            <Route
-              element={
-                <ReservationEditProvider>
-                  <Outlet />
-                </ReservationEditProvider>
-              }
-            >
-              <Route path="/yourReservations" element={<YourReservations />}/>
-              <Route path="/editReservation/:reservationId" element={<EditReservation />}/>
+              <Route element={<ProtectedLayoutIsAuthenticated/>}>
+                <Route
+                  path="/reservationDetailsConfirm/:hotelId"
+                  element={<ReservationDetailsConfirm />}
+                />
+              </Route>
+
+            </Route>
+            
+            <Route element={<ProtectedLayoutIsAuthenticated/>}>
+              <Route
+                element={
+                  <ReservationEditProvider>
+                    <Outlet />
+                  </ReservationEditProvider>
+                }
+              >
+                <Route path="/yourReservations" element={<YourReservations />}/>
+                <Route path="/editReservation/:reservationId" element={<EditReservation />}/>
+              </Route>
             </Route>
 
             <Route path="/*" element={<Navigate to={"/home"} />} />

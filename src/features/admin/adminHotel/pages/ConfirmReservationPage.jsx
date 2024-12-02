@@ -41,7 +41,7 @@ export const ConfirmReservationPage = () => {
 
       if(result.status){
         toast.success("Reservación creada con éxito");
-        navigate("/dashboardHotelPage");
+        navigate("/administrationHotelPage/dashboardHotelPage");
       }else{
         toast.error("Error al crear la reserva");
       }

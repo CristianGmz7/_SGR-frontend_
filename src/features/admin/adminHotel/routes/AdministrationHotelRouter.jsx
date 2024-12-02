@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { Footer, Nav, SideBar } from "../../../client/components";
+import { Footer, Nav } from "../../../client/components";    //SideBar se quitó SideBar
 import {
   AdditionalServicesPage,
   ConfirmReservationPage,
@@ -13,6 +13,7 @@ import {
   RoomsPage,
 } from "../pages";
 import { CreateReservationProvider } from "../contexts/reservationCreateContext";
+import { SideBar } from "../components";
 
 export const AdministrationHotelRouter = () => {
   return (
@@ -68,7 +69,7 @@ export const AdministrationHotelRouter = () => {
               />
 
               <Route
-                path="/dashboardHotelPage/editReservation/:reservationId"
+                path="/dashboardHotelPage/editReservation/:reservationId/:hotelId"
                 element={<EditReservationPage />}
               />
             </Route>
