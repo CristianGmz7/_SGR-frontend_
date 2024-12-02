@@ -15,6 +15,7 @@ export const LoginPage = () => {
   const error = useAuthStore((state) => state.error);
   const message = useAuthStore((state) => state.message);
   const resetError = useAuthStore((state) => state.resetError);
+  const validateAuthentication = useAuthStore((state) => state.validateAuthentication);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,6 +40,7 @@ export const LoginPage = () => {
 
       setLoading(true);
       await login(formValues);
+      validateAuthentication();
       setLoading(false);
     }
   });
@@ -57,7 +59,7 @@ export const LoginPage = () => {
           <div>
             <label 
               htmlFor="username" 
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Correo Electrónico
             </label>
@@ -80,7 +82,7 @@ export const LoginPage = () => {
           <div>
             <label 
               htmlFor="password" 
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1 mt-2"
             >
               Contraseña
             </label>
@@ -100,7 +102,7 @@ export const LoginPage = () => {
               </div>
             )}
           </div>
-          <div>
+          <div className="mt-4">
             <button
               type="submit"
               className="w-full flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

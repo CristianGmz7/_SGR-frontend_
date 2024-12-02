@@ -5,10 +5,12 @@ import { useAdditionalServices, useReservations, useSinglePagination } from "../
 
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const EditReservation = () => {
   const { state: reservation, dispatch, defaultState } = useEditReservation();
+
+  const navigate = useNavigate();
 
   const firstHotelRoomSelected =
     defaultState?.roomsInfoList?.at(0)?.hotelInfo;
@@ -81,6 +83,7 @@ export const EditReservation = () => {
       if(result.status){
 
         toast.success(result.message)
+        navigate('/yourReservations');
         //queriendo se implementa el useNavigate
       }
       else{
@@ -125,8 +128,8 @@ export const EditReservation = () => {
             Reserva: {reservation?.id}
           </h2>
           <div className="flex justify-between text-gray-600 mb-6">
-            <p>Inicio: {formatDate(defaultState?.startDate)}</p>
-            <p>Fin: {formatDate(defaultState?.finishDate)}</p>
+            <p>Inicio: {formatDate(reservation?.startDate)}</p>
+            <p>Fin: {formatDate(reservation?.finishDate)}</p>
           </div>
           <div className="flex justify-between text-gray-600 mb-6">
             <p>
@@ -266,11 +269,6 @@ export const EditReservation = () => {
       >
         Reserva inicial
       </Button>
-      <p>
-        Este boton necesita validacion de que la data original sea diferente a
-        la actual, y que exista
-      </p>
-      <p></p>
     </>
   );
 };

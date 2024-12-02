@@ -139,6 +139,9 @@ export const ReservationDetailsConfirm = () => {
         <p className="text-sm text-blue-500">
           Fecha de salida: {dayjs(dateInterval.endDate).format("DD/MM/YYYY")}
         </p>
+        <p className="text-sm text-blue-500">
+          Total dias: {daysInterval}
+        </p>
       </div>
       <div className="mt-6 text-right">
         <Button

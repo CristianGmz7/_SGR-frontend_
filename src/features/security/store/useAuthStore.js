@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import { loginAsync } from '../../../shared/actions/auth/auth.action';
-
-//investigar manera de colocar un hook en un lugar que no es un componente jsx
+import { jwtDecode } from 'jwt-decode'
 
 export const useAuthStore = create((set, get) => ({
   user: null,
   token: null,
+  roles: [],
   refreshToken: null,
   isAuthenticated: false,
   message: "",
@@ -43,6 +43,7 @@ export const useAuthStore = create((set, get) => ({
     set({
       user: null,
       token: null,
+      roles: [],
       refreshToken: null,
       isAuthenticated: false,
       message: '',
@@ -61,8 +62,42 @@ export const useAuthStore = create((set, get) => ({
     localStorage.setItem('token', get().token)
     localStorage.setItem('refreshToken', get().refreshToken)
   },
-  //falta que implementar validación del validateAuthentication
+  validateAuthentication: () => {
+    const token = localStorage.getItem('token') ?? '';
 
+    if(token === ''){
+      //si esto pasa no hay una sesion activa
+      set({isAuthenticated: false});
+      return;
+    } else {
+      try{
+        const decodeJwt = jwtDecode(token);
+
+        const currentTime = Math.floor(Date.now()/1000);    //fecha y hora actual en milisegundos
+
+        if(decodeJwt.exp < currentTime){
+          //token ya expirado
+          console.log('Token expirado');
+          set({isAuthenticated: false});
+          return;
+        }
+
+        //extraer los roles
+        const roles = decodeJwt["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ?? [];
+        // console.log(roles);    //si es string solo viene un rol entonces toca meterlo dentro de un arreglo
+        set({isAuthenticated: true, roles: typeof(roles) === 'string' ? [roles] : roles})
+        
+
+        set({isAuthenticated: true});
+
+      }
+      catch(error){
+        console.error(error);
+        set({isAuthenticated: false});
+      }
+    }
+
+  },
   //nuevo metodo implementado para evitar problemas renderizado del toast
   resetError: () => set({error: false, message: ""}),
 }));
