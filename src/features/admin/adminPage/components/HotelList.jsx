@@ -38,7 +38,7 @@ export const HotelList = ({hotelsData, isLoading, error, searchTerm,
       {
         isLoading
         ? (
-        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70">
+          <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
         )

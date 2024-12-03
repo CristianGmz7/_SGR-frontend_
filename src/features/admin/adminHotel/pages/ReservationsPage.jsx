@@ -133,9 +133,9 @@ export const ReservationsPage = () => {
       </div>
 
       {isLoadingReservations ? (
-        <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70">
-          <CircularProgress />
-        </div>
+        <div className="flex justify-center items-center h-64">
+        <CircularProgress />
+      </div>
       ) : (
         // paginatedReservations?.reservations?.map((reservation) => {
         reservationsByHotelData?.data?.items?.map((reservation) => {

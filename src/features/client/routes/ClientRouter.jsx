@@ -8,9 +8,12 @@ import { ProtectedLayoutIsAuthenticated } from "../../../shared/components";
 
 export const ClientRouter = () => {
   return (
-    <div className="overflow-x-hidden bg-gray-100 w-screen h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden bg-gray-100 w-screen">
+      {/* Navbar */}
       <Nav />
-      <div className="px-6 py-8 flex">
+      
+      {/* Contenido principal */}
+      <div className="flex-1 px-6 py-8 flex">
         <SideBar />
         <div className="flex-1 ml-14 md:ml-48">
           <Routes>
@@ -23,21 +26,17 @@ export const ClientRouter = () => {
                 </ReservationProvider>
               }
             >
-              <Route
-                path="/hotelRoomList/:hotelId"
-                element={<HotelRoomList />}
-              />
+              <Route path="/hotelRoomList/:hotelId" element={<HotelRoomList />} />
 
-              <Route element={<ProtectedLayoutIsAuthenticated/>}>
+              <Route element={<ProtectedLayoutIsAuthenticated />}>
                 <Route
                   path="/reservationDetailsConfirm/:hotelId"
                   element={<ReservationDetailsConfirm />}
                 />
               </Route>
-
             </Route>
-            
-            <Route element={<ProtectedLayoutIsAuthenticated/>}>
+
+            <Route element={<ProtectedLayoutIsAuthenticated />}>
               <Route
                 element={
                   <ReservationEditProvider>
@@ -45,12 +44,12 @@ export const ClientRouter = () => {
                   </ReservationEditProvider>
                 }
               >
-                <Route path="/yourReservations" element={<YourReservations />}/>
-                <Route path="/editReservation/:reservationId" element={<EditReservation />}/>
+                <Route path="/yourReservations" element={<YourReservations />} />
+                <Route path="/editReservation/:reservationId" element={<EditReservation />} />
               </Route>
             </Route>
-            
-            <Route element={<ProtectedLayoutIsAuthenticated/>}>
+
+            <Route element={<ProtectedLayoutIsAuthenticated />}>
               <Route path="/editUserInformation" element={<EditUserInformation />} />
             </Route>
 
@@ -58,6 +57,8 @@ export const ClientRouter = () => {
           </Routes>
         </div>
       </div>
+      
+      {/* Footer */}
       <Footer />
     </div>
   );
