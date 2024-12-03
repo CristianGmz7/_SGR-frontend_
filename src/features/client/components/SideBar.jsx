@@ -55,8 +55,8 @@ export const SideBar = () => {
         )}
 
         {isAuthenticated && (
-          <a
-            href="#"
+          <Link
+            to="/editUserInformation"
             className="flex items-center gap-4 text-blue-600 hover:text-blue-800 transition-colors duration-300"
           >
             <svg
@@ -79,9 +79,9 @@ export const SideBar = () => {
                 isExpanded ? "opacity-100" : "opacity-0"
               } hidden sm:inline text-blue-600 font-medium`}
             >
-              Configuración
+              Config. cuenta
             </span>
-          </a>
+          </Link>
         )}
 
         {isAuthenticated && (

@@ -23,7 +23,7 @@ export const useHotels = () => {
       return result;
 
     } catch (error) {
-      console.error("Error al crear la cuenta:", error);
+      console.error("Error al editar el hotel:", error);
       setError(error);
     }
     finally{

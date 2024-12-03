@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { EditReservation, HomePage, HotelRoomList, ReservationDetailsConfirm, YourReservations } from "../pages";
+import { EditReservation, EditUserInformation, HomePage, HotelRoomList, ReservationDetailsConfirm, YourReservations } from "../pages";
 import { Footer } from "../components/Footer";
 import { Nav } from "../components/Nav";
 import { SideBar } from "../components/SideBar";
@@ -48,6 +48,10 @@ export const ClientRouter = () => {
                 <Route path="/yourReservations" element={<YourReservations />}/>
                 <Route path="/editReservation/:reservationId" element={<EditReservation />}/>
               </Route>
+            </Route>
+            
+            <Route element={<ProtectedLayoutIsAuthenticated/>}>
+              <Route path="/editUserInformation" element={<EditUserInformation />} />
             </Route>
 
             <Route path="/*" element={<Navigate to={"/home"} />} />

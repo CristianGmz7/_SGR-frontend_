@@ -1,9 +1,9 @@
 
 import { CircularProgress, Pagination } from "@mui/material";
 import { useHotels, usePagination } from "../hooks";
-import { HotelCard } from "../components";
+import { CancellationPoliciesModal, HighlightedFeaturesModal, HotelCard } from "../components";
 import { FaSearch } from "react-icons/fa";
-
+import { useState } from "react";
 
 export const HomePage = () => {
   // const { handlePageChange, page } = usePagination();
@@ -12,6 +12,10 @@ export const HomePage = () => {
   const { hotelsData, isLoading, error, loadHotelsData } = useHotels();
   const { currentPage, searchTerm, handlePageChange, setFetching, handleSearchTermChange, handleSubmit } = usePagination(loadHotelsData);
 
+  const [homePageModals, setHomePageModals] = useState({
+    showCancePoliModal: false,
+    showHighLightedFeatures: false,
+  })
 
   return (
     <div className="bg-background text-foreground">
@@ -85,14 +89,14 @@ export const HomePage = () => {
               Conoce nuestras políticas de cancelación y modificación de
               reservas.
             </p>
-            <a
-              href="#"
+            <button
+              onClick={() => setHomePageModals((prev) => ({...prev, showCancePoliModal:true}))}
               className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-blue-600 
             text-white font-medium transition-colors hover:bg-purple-700 focus:outline-none 
               focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
             >
               Ver política
-            </a>
+            </button>
           </div>
           <div className="características-destacadas">
             <h3 className="text-xl font-bold mb-2">
@@ -102,17 +106,25 @@ export const HomePage = () => {
               Descubre las características que hacen de nuestros hoteles una
               experiencia única.
             </p>
-            <a
-              href="#"
+            <button
+              onClick={() => setHomePageModals((prev) => ({...prev, showHighLightedFeatures:true}))}
               className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-blue-600 
               text-white font-medium transition-colors hover:bg-purple-700 focus:outline-none 
               focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
             >
               Ver características
-            </a>
+            </button>
           </div>
         </div>
       </section>
+      <CancellationPoliciesModal
+        onClose={() => setHomePageModals((prev) => ({...prev, showCancePoliModal: false}))} 
+        visible={homePageModals.showCancePoliModal}
+      />
+      <HighlightedFeaturesModal 
+        onClose={() => setHomePageModals((prev) => ({...prev, showHighLightedFeatures: false}))} 
+        visible={homePageModals.showHighLightedFeatures}
+      />
     </div>
   );
 };
