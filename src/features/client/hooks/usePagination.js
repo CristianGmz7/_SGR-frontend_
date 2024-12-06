@@ -167,3 +167,51 @@ export const usePaginationReservationsByHotel = (loadData, foreignId) => {
     setFetching
   }
 }
+
+export const usePaginationHotelsForUsers = (loadData) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [moreFilters, setMoreFilters] = useState({
+    departmentFilter: { code: "", name: "" },
+    cityFilter: "",
+    starsFilter: 0,
+    rangeReactions: { minRange: -1, maxRange: -1}
+  });
+  const [fetching, setFetching] = useState(true);
+
+  useEffect(() => {
+    if (fetching) {
+      loadData(searchTerm, currentPage, moreFilters.starsFilter, moreFilters.departmentFilter.name, moreFilters.cityFilter, moreFilters.rangeReactions.minRange, moreFilters.rangeReactions.maxRange); // Carga los datos para la página actual
+      setFetching(false); // Cambia el estado de fetching a false
+    }
+  }, [fetching, currentPage, loadData, searchTerm, moreFilters.starsFilter, moreFilters.departmentFilter.name, moreFilters.cityFilter, moreFilters.rangeReactions.minRange, moreFilters.rangeReactions.maxRange]);
+
+  const handlePageChange = (_event, page) => {
+    setCurrentPage(page); // Actualiza la página actual
+    setFetching(true); // Establece fetching a true para cargar nuevos datos
+  };
+
+  const handleSearchTermChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    setFetching(true);
+  }
+
+  const handleSubmit  = (e) => {
+    e.preventDefault();
+    console.log(moreFilters)    
+    console.log('Buscando...');
+    setFetching(true);
+  }
+
+  return {
+    currentPage,
+    searchTerm,
+    moreFilters,
+
+    handlePageChange,
+    setFetching,
+    handleSearchTermChange,
+    handleSubmit,
+    setMoreFilters
+  };
+}

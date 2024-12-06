@@ -37,6 +37,12 @@ export const HotelPreview = ({ hotelDto }) => {
             <p className="text-gray-500 mb-2">
               {hotelDto.address || "Ingrese la direccion"}
             </p>
+            <p className="text-gray-500 mb-2">
+              {hotelDto.city || "Ingrese la ciudad"}
+            </p>
+            <p className="text-gray-500 mb-2">
+              {hotelDto.department || "Ingrese el departamento"}
+            </p>
             <p className="font-semibold">
               {hotelDto.numberPhone || "Ingrese el numero de telefono"}
             </p>

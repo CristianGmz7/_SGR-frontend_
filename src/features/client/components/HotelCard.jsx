@@ -20,8 +20,10 @@ export const HotelCard = ({ hotel }) => {
           </div>
           <h3 className="text-2xl font-bold">{hotel.name}</h3>
         </div>
-        <p className="text-gray-700 text-sm">{hotel.address}</p>
+        <p className="text-gray-700 text-sm mb-4">{hotel.address}</p>
         <p className="text-gray-500 text-sm h-[60px]">{hotel.overview}</p>
+        <p className="text-gray-500 text-sm">Total Likes {hotel.totalLikes}</p>
+        <p className="text-gray-500 text-sm">Total Dislikes {hotel.totalDislikes}</p>
         <Link
           to={`/hotelRoomList/${hotel.id}`}
           className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-blue-600 text-white 

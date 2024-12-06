@@ -18,6 +18,8 @@ export const CreateHotelPage = () => {
     description: "",
     imageUrl: "",
     adminUserId: "",
+    department: "",
+    city: ""
   });
 
   return (

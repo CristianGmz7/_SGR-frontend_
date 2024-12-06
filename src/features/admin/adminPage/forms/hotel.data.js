@@ -8,7 +8,9 @@ export const newHotelInitValues = {
   overview: "",
   description: "",
   imageUrl: "",
-  adminUserId: ""
+  adminUserId: "",
+  department: "",
+  city: "",
 }
 
 export const newHotelValidationSchema = Yup.object({
@@ -36,5 +38,9 @@ export const newHotelValidationSchema = Yup.object({
   imageUrl: Yup.string()
     .required("La url de la imagen es requerida"),
   adminUserId: Yup.string()
-    .required("El id del usuario administrador es requerida")
+    .required("El id del usuario administrador es requerida"),
+  department: Yup.string()
+    .required("El departamento es requerido"),
+  city: Yup.string()
+    .required("La ciudad es es requerida"),
 })

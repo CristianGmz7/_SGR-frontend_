@@ -11,6 +11,7 @@ import { components } from "react-select";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useHotels } from "../hooks";
+import { citiesHonduras, departmentsHonduras } from "../../../../../public";
 
 export const CreateHotelForm = ({setHotelDto, hotelDto}) => {
 
@@ -20,6 +21,7 @@ export const CreateHotelForm = ({setHotelDto, hotelDto}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState({ code: "", name: "" });
 
   const navigate = useNavigate();
 
@@ -60,7 +62,23 @@ export const CreateHotelForm = ({setHotelDto, hotelDto}) => {
     }
   }, [searchTerm]);
 
-  //esto es lo que sale cuando se busca en el Select
+  const optionsDepartments = departmentsHonduras.map((dp) => ({
+    value: dp.code,
+    label: dp.name,
+  }));
+
+  const optionsCities = citiesHonduras
+    .filter(
+      (ct) =>
+        selectedDepartment.code === "" || // Si no hay filtro, incluye todas las ciudades
+        ct.departmentCode === selectedDepartment.code // O si el código coincide
+    )
+    .map((ct) => ({
+      value: ct.name,
+      label: ct.name,
+    }));
+
+  //esto es lo que sale cuando se busca en el Select de Usuarios
   const options = usersData.map((user) => ({
     value: user.id,
     label: (
@@ -172,6 +190,67 @@ const CustomDropdownIndicator = (props) => (
                 component="div"
                 className="text-red-500 text-sm"
               />
+            </div>
+            {/* Departamento */}
+            <div>
+              <label
+                htmlFor="department"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Departamento
+              </label>
+              <Select
+                id="department"
+                options={optionsDepartments}
+                placeholder="Buscar departamento"
+                noOptionsMessage={() =>
+                  error ? "Error cargando datos" : "No se encontraron resultados"
+                }
+                onChange={(option) => {
+                  setSelectedDepartment((prev) => ({
+                    code: option?.value,
+                    name: option?.label,
+                  }) || { code: "", name: "" })
+
+                  setFieldValue("department", option?.label);
+                  handleFieldChange("department", option?.label);
+                  setFieldValue("city", "");
+                  handleFieldChange("city", "");
+                }}
+              />
+              {values.department === "" && (
+                <div className="text-red-500 text-sm">
+                  El departamento es requerido
+                </div>
+              )}
+            </div>
+            {/* Ciudad */}
+            <div>
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Ciudad
+              </label>
+              <Select
+                id="city"
+                options={optionsCities}
+                placeholder="Buscar ciudad"
+                noOptionsMessage={() =>
+                  error ? "Error cargando datos" : "No se encontraron resultados"
+                }
+                onChange={(option) => {
+                  setFieldValue("city", option?.label);
+                  handleFieldChange("city", option?.label);
+                }}
+                value={optionsCities.find((option) => option.label === values.city) || null}    //si tira problema null dejar como ""
+                isDisabled={selectedDepartment.code === ""}
+              />
+              {values.city === "" && (
+                <div className="text-red-500 text-sm">
+                  La ciudad es requerida
+                </div>
+              )}
             </div>
             {/* Numero de estrellas */}
             <div>

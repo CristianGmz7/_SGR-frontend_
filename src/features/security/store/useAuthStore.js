@@ -87,6 +87,8 @@ export const useAuthStore = create((set, get) => ({
         // console.log(roles);    //si es string solo viene un rol entonces toca meterlo dentro de un arreglo
         set({isAuthenticated: true, roles: typeof(roles) === 'string' ? [roles] : roles})
         
+        //aqui se podria obtener el id del usuario tambien colocando decodeJwt["UserId"], podria usarse para temas del paypal si queda chance
+        //esto es suposicion deberia hacerse prueba y crearse una variable de zustand para verificar
 
         set({isAuthenticated: true});
 

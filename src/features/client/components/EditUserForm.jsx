@@ -136,19 +136,19 @@ export const EditUserForm = ({
                 }}
               />
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            {/* <p className="text-sm text-gray-600 mt-2">
               Si quieres cambiar información de seguridad como su contraseña u
               email por favor ingrese su contraseña
-            </p>
-            <button
+            </p> */}
+            {/* <button
               type="button"   //se deja en button para que no se dispare el formulario
               className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               onClick={(e) => handleConfirmPasswordToEdit(e, editUserDto.oldPassword)}
             >
               Confirmar contraseña
-            </button>
+            </button> */}
             {/* Contraseña actual*/}
-            <div>
+            {/* <div>
               <label
                 htmlFor="profilePictureUrl"
                 className="block text-sm font-medium text-gray-700 mb-1"
@@ -171,71 +171,73 @@ export const EditUserForm = ({
                   }
                 }}
               />
-            </div>
+            </div> */}
             {confirmPasswordData.data && (
               <>
-                {/* CORREO ELECTRONICO ACTUAL */}
-                <div>
-                  <label
-                    htmlFor="profilePictureUrl"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Correo electronico actual
-                  </label>
-                  <Field
-                    id="oldEmail"
-                    name="oldEmail"
-                    type="email"
-                    placeholder="Ingrese su nuevo correo electronico"
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onChange={(e) => {
-                      setFieldValue("oldEmail", e.target.value);
-                      handleFieldChange("oldEmail", e.target.value);
-                    }}
-                  />
-                </div>
-                {/* NUEVO CORREO ELECTRONICO */}
-                <div>
-                  <label
-                    htmlFor="profilePictureUrl"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Correo electronico nuevo
-                  </label>
-                  <Field
-                    id="newEmail"
-                    name="newEmail"
-                    type="email"
-                    placeholder="Ingrese su nuevo correo electronico"
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onChange={(e) => {
-                      setFieldValue("newEmail", e.target.value);
-                      handleFieldChange("newEmail", e.target.value);
-                    }}
-                  />
-                </div>
-
-                {/* NUEVA CONTRASEÑA */}
-                <div>
-                  <label
-                    htmlFor="profilePictureUrl"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Contraseña nueva
-                  </label>
-                  <Field
-                    id="newPassword"
-                    name="newPassword"
-                    type="password"
-                    placeholder="Ingrese su contraseña actual"
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onChange={(e) => {
-                      setFieldValue("newPassword", e.target.value);
-                      handleFieldChange("newPassword", e.target.value);
-                    }}
-                  />
-                </div>
               </>
+              // <>
+              //   {/* CORREO ELECTRONICO ACTUAL */}
+              //   <div>
+              //     <label
+              //       htmlFor="profilePictureUrl"
+              //       className="block text-sm font-medium text-gray-700 mb-1"
+              //     >
+              //       Correo electronico actual
+              //     </label>
+              //     <Field
+              //       id="oldEmail"
+              //       name="oldEmail"
+              //       type="email"
+              //       placeholder="Ingrese su nuevo correo electronico"
+              //       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              //       onChange={(e) => {
+              //         setFieldValue("oldEmail", e.target.value);
+              //         handleFieldChange("oldEmail", e.target.value);
+              //       }}
+              //     />
+              //   </div>
+              //   {/* NUEVO CORREO ELECTRONICO */}
+              //   <div>
+              //     <label
+              //       htmlFor="profilePictureUrl"
+              //       className="block text-sm font-medium text-gray-700 mb-1"
+              //     >
+              //       Correo electronico nuevo
+              //     </label>
+              //     <Field
+              //       id="newEmail"
+              //       name="newEmail"
+              //       type="email"
+              //       placeholder="Ingrese su nuevo correo electronico"
+              //       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              //       onChange={(e) => {
+              //         setFieldValue("newEmail", e.target.value);
+              //         handleFieldChange("newEmail", e.target.value);
+              //       }}
+              //     />
+              //   </div>
+
+              //   {/* NUEVA CONTRASEÑA */}
+              //   <div>
+              //     <label
+              //       htmlFor="profilePictureUrl"
+              //       className="block text-sm font-medium text-gray-700 mb-1"
+              //     >
+              //       Contraseña nueva
+              //     </label>
+              //     <Field
+              //       id="newPassword"
+              //       name="newPassword"
+              //       type="password"
+              //       placeholder="Ingrese su contraseña actual"
+              //       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              //       onChange={(e) => {
+              //         setFieldValue("newPassword", e.target.value);
+              //         handleFieldChange("newPassword", e.target.value);
+              //       }}
+              //     />
+              //   </div>
+              // </>
             )}
             <button
               type="submit"
