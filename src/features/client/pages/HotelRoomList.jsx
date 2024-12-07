@@ -1,29 +1,143 @@
 import { RoomCard } from "../components";
-
 import { useAuthStore } from "../../security/store";
 import { useReservation } from "../contexts";
-import { usePaginationGetRoomsByHotelAndBetweenDates, useRooms } from "../hooks";
-
-// import { DatePicker, LocalizationProvider, AdapterDayjs } from "@mui/x-date-pickers";
+import {
+  useHotelsReacts,
+  usePaginationGetRoomsByHotelAndBetweenDates,
+  useRooms,
+} from "../hooks";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
 import { Button, CircularProgress, Pagination } from "@mui/material";
 import dayjs from "dayjs";
 import esMx from "dayjs/locale/es-mx";
-
 import { toast } from "react-toastify";
-
 import { Link, useParams } from "react-router-dom";
-
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import {
+  AiOutlineLike,
+  AiOutlineDislike,
+  AiFillLike,
+  AiFillDislike,
+} from "react-icons/ai";
 
 export const HotelRoomList = () => {
+  const { hotelId } = useParams();
+  //autenticación para crear reservas
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  const { selectedRooms, toggleRoomSelection, isRoomSelected, setDayInterval, } =
+  const { selectedRooms, toggleRoomSelection, isRoomSelected, setDayInterval } =
     useReservation();
+
+  const {
+    reactions,
+    isLoading: isLoadingHotelReacts,
+    error: errorHotelReacts,
+    loadHotelReact,
+    createHotelReact,
+    editHotelReact,
+    deleteHotelReact,
+    setReactions,
+  } = useHotelsReacts();
+
+  useEffect(() => {
+    loadHotelReact(hotelId, isAuthenticated);
+  }, [hotelId, isAuthenticated]);
+
+  //handle para manejar las funciones del hook de reaccionar
+  const handleActionsHotelReact = async (hotelId, buttonClicked) => {
+    if (buttonClicked === "LikeButton") {
+      if (reactions.unLikeActive) {
+        //editar el no me gusta y dejar el like encendido
+        const result = await editHotelReact(hotelId, "SWITCHLIKED");
+        const newValue = result?.data?.action;
+
+        if (newValue === "LIKED") {
+          setReactions((prev) => ({
+            ...prev,
+            likeActive: true,
+            unLikeActive: false,
+          }));
+        }
+
+        return;
+      }
+
+      if (reactions.likeActive) {
+        //eliminar el me gusta y dejar el like apagado
+        const result = await deleteHotelReact(hotelId, "REMOVELIKED");
+        const newValue = result?.data?.action;
+
+        if (newValue === "REMOVELIKED") {
+          setReactions((prev) => ({
+            ...prev,
+            likeActive: false,
+            unLikeActive: false,
+          }));
+        }
+
+        return;
+      }
+
+      //crear el me gusta y dejar el like encendido
+      const result = await createHotelReact(hotelId, "LIKED");
+      const newValue = result?.data?.action;
+      if (newValue === "LIKED") {
+        setReactions((prev) => ({
+          ...prev,
+          likeActive: true,
+          unLikeActive: false,
+        }));
+      }
+
+      return;
+    }
+
+    if (reactions.likeActive) {
+      //editar el me gusta y dejar el unlike encendido
+      const result = await editHotelReact(hotelId, "SWITCHLIKED");
+      const newValue = result?.data?.action;
+
+      if (newValue === "UNLIKED") {
+        setReactions((prev) => ({
+          ...prev,
+          likeActive: false,
+          unLikeActive: true,
+        }));
+      }
+
+      return;
+    }
+
+    if (reactions.unLikeActive) {
+      //eliminar el me gusta y dejar el like apagado
+      const result = await deleteHotelReact(hotelId, "REMOVELIKED");
+      const newValue = result?.data?.action;
+
+      if (newValue === "REMOVELIKED") {
+        setReactions((prev) => ({
+          ...prev,
+          likeActive: false,
+          unLikeActive: false,
+        }));
+      }
+      return;
+    }
+
+    //crear el no me gusta y dejar el unlike encendido
+    const result = await createHotelReact(hotelId, "UNLIKED");
+    const newValue = result?.data?.action;
+    if (newValue === "UNLIKED") {
+      setReactions((prev) => ({
+        ...prev,
+        likeActive: false,
+        unLikeActive: true,
+      }));
+    }
+
+    return;
+  };
 
   //Crear variable de estado para las fecha inicial y final
   let sDate = new Date();
@@ -36,23 +150,23 @@ export const HotelRoomList = () => {
 
   //Almacena las fechas de filtro   ¿?  (convertidas a formato ISO)
   const [filter, setFilter] = useState({
-    // startDate: null,
-    // finishDate: null,      //se tuvo que cambiar los valores nulos iniciales a los de estado porque si no tiraba error
     startDate: startDate,
     finishDate: finishDate,
   });
 
-  const { hotelId } = useParams();
-
   const { roomsByHotelData, isLoading, error, loadRoomsByHotel } = useRooms();
-  const { currentPage, handlePageChange, setFetching } = usePaginationGetRoomsByHotelAndBetweenDates(loadRoomsByHotel, filter?.startDate, filter?.finishDate, hotelId);
+  const { currentPage, handlePageChange, setFetching } =
+    usePaginationGetRoomsByHotelAndBetweenDates(
+      loadRoomsByHotel,
+      filter?.startDate,
+      filter?.finishDate,
+      hotelId
+    );
 
   // Función para manejar la validación y aplicar el filtro de fechas
   const handleFilterClick = () => {
-
     //verifica que fecha inicio no se mayor que fecha fin
     if (startDate > finishDate) {
-
       toast.warn("La fecha de inicio no puede ser mayor a la fecha de fin");
       return;
     }
@@ -69,9 +183,6 @@ export const HotelRoomList = () => {
     setFetching(true);
   };
 
-  //autenticación para crear reservas
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
   return (
     //LocalizationProvider para configurar el idioma de los DatePickers
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={esMx}>
@@ -86,10 +197,42 @@ export const HotelRoomList = () => {
               {roomsByHotelData?.data?.items?.hotel?.name}{" "}
             </h2>
             {/* Descripción del hotel */}
-            {/* <p className="text-muted-foreground">{hotel?.description}</p> */}
             <p className="text-muted-foreground">
               {roomsByHotelData?.data?.items?.hotel?.description}
             </p>
+            <p>Da alguna reseña de este hotel</p>
+            <div
+              className={`flex space-x-4 ${
+                !isAuthenticated ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
+              {reactions.likeActive ? (
+                <AiFillLike
+                  className="h-10 w-10 text-blue-500 cursor-pointer"
+                  onClick={() => handleActionsHotelReact(hotelId, "LikeButton")}
+                />
+              ) : (
+                <AiOutlineLike
+                  className="h-10 w-10 cursor-pointer"
+                  onClick={() => handleActionsHotelReact(hotelId, "LikeButton")}
+                />
+              )}
+              {reactions.unLikeActive ? (
+                <AiFillDislike
+                  className="h-10 w-10 text-blue-500 cursor-pointer"
+                  onClick={() =>
+                    handleActionsHotelReact(hotelId, "UnlikeButton")
+                  }
+                />
+              ) : (
+                <AiOutlineDislike
+                  className="h-10 w-10 cursor-pointer"
+                  onClick={() =>
+                    handleActionsHotelReact(hotelId, "UnlikeButton")
+                  }
+                />
+              )}
+            </div>
 
             {/* Inicio Campos de check-in, check-out y botón de filtrar */}
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
@@ -131,7 +274,6 @@ export const HotelRoomList = () => {
           </div>
           {/* Fin de div información hotel y campos de check-in y check-out*/}
 
-
           {/* Inicio de contenedor de habitaciones por paginación */}
           {/* Si la petición del filtro aun esta en curso mostrar carga de la página */}
           {isLoading ? (
@@ -143,10 +285,11 @@ export const HotelRoomList = () => {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {/* {rooms?.map((room) => ( */}
               {roomsByHotelData?.data?.items?.rooms?.map((room) => (
-                <RoomCard key={room.id} 
-                  room={room} 
+                <RoomCard
+                  key={room.id}
+                  room={room}
                   isRoomSelected={isRoomSelected}
-                  toggleRoomSelection={toggleRoomSelection} 
+                  toggleRoomSelection={toggleRoomSelection}
                   isAuthenticated={isAuthenticated}
                 />
               ))}
@@ -155,24 +298,25 @@ export const HotelRoomList = () => {
           {/* Fin de contenedor de habitaciones por paginación */}
 
           {/* Inicio Botón implementado cuando se selecciona habitaciones */}
-          {/* {isAuthenticated && selectedRooms.length > 0 && ( */}
-          {isAuthenticated && selectedRooms.length > 0 && (finishDate > startDate) && (
-            <div className="mt-8">
-              <Link to={`/reservationDetailsConfirm/${hotelId}`}>
-                <Button
-                  variant="contained"
-                  color="warning"
-                  onClick={() => {
-                    // esto se agrego por si el usuario entra y no le da filtrar, se coloquen
-                    //las fechas que viene por defecto
-                    setDayInterval(startDate, finishDate);
-                  }}
-                >
-                  Ver Reserva
-                </Button>
-              </Link>
-            </div>
-          )}
+          {isAuthenticated &&
+            selectedRooms.length > 0 &&
+            finishDate > startDate && (
+              <div className="mt-8">
+                <Link to={`/reservationDetailsConfirm/${hotelId}`}>
+                  <Button
+                    variant="contained"
+                    color="warning"
+                    onClick={() => {
+                      // esto se agrego por si el usuario entra y no le da filtrar, se coloquen
+                      //las fechas que viene por defecto
+                      setDayInterval(startDate, finishDate);
+                    }}
+                  >
+                    Ver Reserva
+                  </Button>
+                </Link>
+              </div>
+            )}
           {/* Fin Botón implementado cuando se selecciona habitaciones */}
         </div>
         {/* Fin del div que sirve para agrupar */}
@@ -180,7 +324,6 @@ export const HotelRoomList = () => {
           <Pagination
             count={roomsByHotelData?.data?.totalPages}
             page={roomsByHotelData?.data?.currentPage}
-            // onChange={(_event, page) => setPage(page)}
             onChange={handlePageChange}
             key={roomsByHotelData?.data?.currentPage}
           />

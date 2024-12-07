@@ -14,7 +14,7 @@ export const useReservations = () => {
       return result;
 
     } catch (error) {
-      console.error("Error al crear la cuenta:", error);
+      console.error("Error al crear la reservación:", error);
       setError(error);
     }
     finally{
