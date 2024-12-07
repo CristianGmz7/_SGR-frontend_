@@ -15,6 +15,7 @@ export const getAllHotelsApi = async (searchTerm = "", page = 1) => {
   }
 }
 
+//este es el que se usa en el HomePage
 export const getAllHotelsForUsersApi = async (searchTerm = "", page = 1, starsNumber = 0, department = "", city = "", minLikes = -1, maxLikes = -1) => {
   try{
     const { data } = await sgrApi.get(
