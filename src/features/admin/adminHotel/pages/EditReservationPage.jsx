@@ -101,8 +101,6 @@ export const EditReservationPage = () => {
         ),
     };
 
-    console.log(dto)
-
     try{
       const result = await editReservation(id, dto);
 

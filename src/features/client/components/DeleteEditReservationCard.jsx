@@ -47,7 +47,7 @@ export const DeleteEditReservationCard = ({ reservation, isReservationDisabled }
       const result = await deleteReservation(id);
 
       if(result.status){
-        toast.success("Reserva eliminada correctamente")
+        toast.success(result.message)
         navigate("/");
       }else{
         toast.error("Error al eliminar la reserva")

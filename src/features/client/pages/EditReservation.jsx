@@ -1,14 +1,17 @@
 import { formatDate } from "../../../shared/utils/format-date";
 import { UPDATE_RESERVATION_ACTIONS, useEditReservation } from "../contexts";
 import { AdditionalServicesList, AddRoomsEditReservation, ChangeDatesEditReser, RoomReservationCard } from "../components";
-import { useAdditionalServices, useReservations, useSinglePagination } from "../hooks";
+import { useAdditionalServices, usePaypal, useReservations, useSinglePagination } from "../hooks";
 
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { PayPalCheckoutEdit } from "../paypal";
+import { useEffect, useState } from "react";
 
 export const EditReservation = () => {
   const { state: reservation, dispatch, defaultState } = useEditReservation();
+  const { isLoading:loadingRefund, error:errorRefund, createRefund } = usePaypal();
 
   const navigate = useNavigate();
 
@@ -64,7 +67,7 @@ export const EditReservation = () => {
     }));
 
   //aqui se hace la petición al action para editar
-  const handleEditReservation = async (id) => {
+  const handleEditReservation = async (id, orderId, captureId) => {
     const dto = {
       startDate: reservation?.startDate,
       finishDate: reservation?.finishDate,
@@ -75,8 +78,11 @@ export const EditReservation = () => {
         reservation?.additionalServicesInfoList.map(
           (element) => element.id
         ),
+        orderId: orderId,
+        captureId: captureId
     };
 
+    console.log(id, dto)
     try{
       const result = await editReservation(id, dto);
       
@@ -84,10 +90,26 @@ export const EditReservation = () => {
 
         toast.success(result.message)
         navigate('/yourReservations');
-        //queriendo se implementa el useNavigate
+        //si no funciona la creación probar a hacer el reembolso
       }
       else{
-        toast.error(result.message)
+        toast.error(`${result.message}... Generando reembolso de la edición`)
+        const result = await createRefund({captureId: captureId, reason: ""})
+        //inicio de lo del reembolso
+        try{
+          const result = await createRefund({captureId: captureId, reason: ""})
+          if(result.status){
+            toast.success("Reembolso de la edición creado con éxito");
+          }
+          else{
+            toast.error("Error al crear el reembolso de la edición, pongase en contacto con el administrador del hotel");
+          }
+        }
+        catch(error){
+          console.error("Error al crear el reembolso de la edición:", error);
+          toast.error("Ocurrió un error al crear el reembolso de la edición, , pongase en contacto con el administrador del hotel");
+        }
+        //fin de lo del reembolso
       }
 
     }
@@ -108,7 +130,11 @@ export const EditReservation = () => {
       (acc, { price }) => acc + price, 0
   );
 
-  // console.log(reservation)
+  const [totalReservation, setTotalReservation] = useState(); 
+  useEffect(() => {
+    setTotalReservation(parseFloat((costRooms + totalServices) * (calculateDays(reservation?.startDate, reservation?.finishDate) || 1)).toFixed(2))
+  }, [costRooms, totalServices, reservation?.startDate, reservation?.finishDate])
+  
 
   return (
     <>
@@ -202,11 +228,12 @@ export const EditReservation = () => {
             {/* Total Reserva = ${reservation.reservationPrice} */}
             {/* $ {(costRooms + totalServices) * (daysInterval || 1)} */}
             Total Reserva = $
-            {(costRooms + totalServices) *
+            {/* {(costRooms + totalServices) *
               calculateDays(
                 reservation?.startDate,
                 reservation?.finishDate
-              )}
+              )} */}
+              {totalReservation}
           </p>
         </section>
       ) : (
@@ -251,14 +278,6 @@ export const EditReservation = () => {
 
       <Button
         variant="contained"
-        color="warning"
-        disabled={isLoadingEditReservation}
-        onClick={() => handleEditReservation(reservation.id)}
-      >
-        {isLoadingEditReservation ? "Editando..." : "Editar Reserva"}
-      </Button>
-      <Button
-        variant="contained"
         color="info"
         onClick={() => {
           dispatch({
@@ -269,6 +288,15 @@ export const EditReservation = () => {
       >
         Reserva inicial
       </Button>
+      {/* <Button
+        variant="contained"
+        color="warning"
+        disabled={isLoadingEditReservation}
+        onClick={() => handleEditReservation(reservation.id)}
+      >
+        {isLoadingEditReservation ? "Editando..." : "Editar Reserva"}
+      </Button> */}
+      <PayPalCheckoutEdit total={totalReservation} functionAfterPaying={handleEditReservation} reservationId={reservation.id}/>
     </>
   );
 };
