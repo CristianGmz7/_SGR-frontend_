@@ -1,42 +1,40 @@
-import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useReservation } from "../contexts";
 import { AdditionalServicesList } from "../components";
-import { useAdditionalServices, useReservations, useSinglePagination } from "../hooks";
+import { useAdditionalServices, usePaypal, useReservations, useSinglePagination } from "../hooks";
+import { PayPalCheckout } from "../paypal";
 
 export const ReservationDetailsConfirm = () => {
   const { selectedRooms, daysInterval, dateInterval, 
-    selectedServices, toggleService, totalServices 
+    selectedServices, toggleService, totalServices, totalRooms, 
+    totalReservation
   } = useReservation();
   const { hotelId } = useParams();
 
   const { additionalServicesByHotelData, isLoading, 
     error:errorAdditionalServices, loadAdditionalServicesByHotel } = useAdditionalServices();
   const { setFetching } = useSinglePagination(loadAdditionalServicesByHotel, hotelId);
-
-  // console.log(additionalServicesByHotelData);   //output: { }
   
+  const { isLoading:loadingRefund, error:errorRefund, createRefund } = usePaypal();
+
   //el hook de useSelectedServices se pasó al Provider del context
   const { isLoading:isLoadingReservation, error, createReservation } = useReservations();
 
   const navigate = useNavigate();
 
-  const costRooms = selectedRooms.reduce(
-    (acc, { priceNight }) => acc + priceNight,
-    0
-  );
-
   //función para crear la reservación
   //aqui se mandan los datos que se necesitan en API para poder procesar la reservación
-  const handleCreateReservation = async () => {
+  const handleCreateReservation = async (orderId, captureId) => {
     const reservationData = {
       startDate: dateInterval.startDate,
       finishDate: dateInterval.endDate,
       roomsList: selectedRooms.map(({ id }) => id),
       additionalServicesList: selectedServices.map(({ id }) => id),
       clientId: "usuarioDesdeFrontend",
+      orderId: orderId,
+      captureId: captureId
       //por el momento este dato se esta obteniendo en el backend
     };
 
@@ -46,8 +44,25 @@ export const ReservationDetailsConfirm = () => {
       if(result.status){
         toast.success("Reservación creada con éxito");
         navigate("/");
+        //si no funciona la creación probar a hacer el reembolso
       }else{
-        toast.error("Error al crear la reserva");
+        toast.error("Error al crear la reserva... Generando reembolso");
+
+        //inicio de lo del reembolso
+        try{
+          const result = await createRefund({captureId: captureId, reason: ""})
+          if(result.status){
+            toast.success("Reembolso creado con éxito");
+          }
+          else{
+            toast.error("Error al crear el reembolso, pongase en contacto con el administrador del hotel");
+          }
+        }
+        catch(error){
+          console.error("Error al crear el reembolso:", error);
+          toast.error("Ocurrió un error al crear el reembolso, , pongase en contacto con el administrador del hotel");
+        }
+        //fin de lo del reembolso
       }
     }
     catch(error){
@@ -115,7 +130,7 @@ export const ReservationDetailsConfirm = () => {
           <h2 className="text-lg font-semibold mb-2 text-blue-600">
             Total de habitaciones
           </h2>
-          <p className="text-2xl font-bold text-blue-800">${costRooms}</p>
+          <p className="text-2xl font-bold text-blue-800">${totalRooms}</p>
         </div>
         <div className="bg-blue-100 rounded-lg p-4 shadow-lg">
           <h2 className="text-lg font-semibold mb-2 text-blue-600">
@@ -129,7 +144,9 @@ export const ReservationDetailsConfirm = () => {
           Total a pagar
         </h2>
         <p className="text-3xl font-bold text-blue-900">
-          $ {(costRooms + totalServices) * (daysInterval || 1)}
+          {/* $ {(totalRooms + totalServices) * (daysInterval || 1)} */}
+          {/* $ {parseFloat(totalReservation).toFixed(2)} */}
+          $ {totalReservation}
         </p>
       </div>
       <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-200">
@@ -144,19 +161,7 @@ export const ReservationDetailsConfirm = () => {
         </p>
       </div>
       <div className="mt-6 text-right">
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: "#007bff",
-            color: "#fff",
-            "&:hover": {
-              backgroundColor: "#0069d9",
-            },
-          }}
-          onClick={handleCreateReservation}
-        >
-          Confirmar
-        </Button>
+        <PayPalCheckout total={totalReservation} functionAfterPaying={handleCreateReservation} />
       </div>
     </div>
   );

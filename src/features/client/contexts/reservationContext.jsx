@@ -3,6 +3,10 @@ import { createContext, useState, useContext, useEffect } from "react";
 const reservationContext = createContext();
 
 export const ReservationProvider = ({ children }) => {
+
+  //ESTO ES NUEVO, ES EL TOTAL QUE SE MANDARÁ AL COMPONENTE DE PAYPAL
+  const [totalReservation, setTotalReservation] = useState(0)
+
   //Estado para saber que habitación esta presionada
 
   // Estado donde hay la siguiente información_
@@ -43,6 +47,13 @@ export const ReservationProvider = ({ children }) => {
     }
   };
   //fin del método toggleRoomSelection
+
+  const [totalRooms, setTotalRooms] = useState(0);
+  useEffect(() => {
+    setTotalRooms(
+      selectedRooms.rooms.reduce((acc, { priceNight }) => acc + priceNight, 0)
+    );
+  }, [selectedRooms]);
 
   //en esta función se le pasa el id de una habitación y determina si ya existe
   //si existe devuelve true y si no devuelve false, se usa mas que todo para botones de agregar o quitar habitación
@@ -114,6 +125,11 @@ export const ReservationProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    // setTotalReservation((totalRooms + totalServices) * (selectedRooms?.days || 1))
+    setTotalReservation(parseFloat((totalRooms + totalServices) * (selectedRooms?.days || 1)).toFixed(2))
+  }, [totalServices, totalRooms, selectedRooms?.days], selectedServices);
+
   //Con este return se devuelve data del context hacia abajo
   return (
     <reservationContext.Provider
@@ -130,6 +146,8 @@ export const ReservationProvider = ({ children }) => {
         },
 
         //nuevos agregados
+        totalReservation,
+        totalRooms,
         selectedServices,
         totalServices,
         toggleService

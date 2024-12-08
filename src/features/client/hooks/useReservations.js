@@ -20,6 +20,11 @@ export const useReservations = () => {
     finally{
       setIsLoading(false);
     }
+    //esto era para hacer prueba que se ejecutará bien el reembolso y si funcionó
+    // return {
+    //   status: false,
+    //   message: "error simulado"
+    // }
   }
 
   // ----------------------------------------------------------------------------------------------------------------
