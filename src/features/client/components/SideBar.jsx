@@ -174,7 +174,7 @@ export const SideBar = () => {
             </Link>
 
             <Link
-              to="#"
+              to="/security/register"
               className="flex items-center gap-4 text-blue-600 hover:text-blue-800 transition-colors duration-300"
             >
               <svg

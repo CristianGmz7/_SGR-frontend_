@@ -1,10 +1,10 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { EditReservation, EditUserInformation, HomePage, HotelRoomList, ReservationDetailsConfirm, YourReservations } from "../pages";
+import { CreateHotelPage, EditReservation, EditUserInformation, HomePage, HotelRoomList, ReservationDetailsConfirm, YourReservations } from "../pages";
 import { Footer } from "../components/Footer";
 import { Nav } from "../components/Nav";
 import { SideBar } from "../components/SideBar";
 import { ReservationEditProvider, ReservationProvider } from "../contexts";
-import { ProtectedLayoutIsAuthenticated } from "../../../shared/components";
+import { ProtectedLayoutIsAuthenticated, ProtectedLayoutUserPage } from "../../../shared/components";
 
 export const ClientRouter = () => {
   return (
@@ -51,6 +51,10 @@ export const ClientRouter = () => {
 
             <Route element={<ProtectedLayoutIsAuthenticated />}>
               <Route path="/editUserInformation" element={<EditUserInformation />} />
+            </Route>
+
+            <Route element={<ProtectedLayoutUserPage />}>
+                <Route path="/createHotel" element={<CreateHotelPage />}/>
             </Route>
 
             <Route path="/*" element={<Navigate to={"/home"} />} />

@@ -2,6 +2,7 @@ import { CircularProgress, Pagination } from "@mui/material";
 import { useHotels, usePagination, usePaginationHotelsForUsers } from "../hooks";
 import {
   CancellationPoliciesModal,
+  CreateHotelAfterRegisterModal,
   HighlightedFeaturesModal,
   HotelCard,
 } from "../components";
@@ -9,8 +10,8 @@ import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
 import Select from "react-select";
 import { citiesHonduras, departmentsHonduras } from "../../../../public";
+import { useClientStore } from "../store";
 
-//COMENZAR A TRABAJAR LA NUEVA MIGRACION DE LA BASE DE DATOS PARA TRABAJAR LOS METODOS DEL GET Y LA DE LAS REACCIONES
 export const HomePage = () => {
   const { hotelsData, isLoading, error, loadHotelsData } = useHotels();
   const {
@@ -24,12 +25,9 @@ export const HomePage = () => {
     setMoreFilters
   } = usePaginationHotelsForUsers(loadHotelsData);
 
-  // const [moreFilters, setMoreFilters] = useState({
-  //   departmentFilter: { code: "", name: "" },
-  //   cityFilter: "",
-  //   starsFilter: 0,
-  //   rangeReactions: { minRange: -1, maxRange: -1}
-  // });
+  const recentlyRegistered = useClientStore((state) => state.recentlyRegistered);
+  const setNotRecentlyRegistered = useClientStore((state) => state.setNotRecentlyRegistered);
+
 
   const [homePageModals, setHomePageModals] = useState({
     showCancePoliModal: false,
@@ -300,12 +298,12 @@ export const HomePage = () => {
       />
       <HighlightedFeaturesModal
         onClose={() =>
-          setHomePageModals((prev) => ({
-            ...prev,
-            showHighLightedFeatures: false,
-          }))
+          setHomePageModals((prev) => ({ ...prev, showHighLightedFeatures: false, }))
         }
         visible={homePageModals.showHighLightedFeatures}
+      />
+      <CreateHotelAfterRegisterModal 
+        visible={recentlyRegistered} onClose={setNotRecentlyRegistered}
       />
     </div>
   );
