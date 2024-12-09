@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ProtectedComponentAdminPage } from "../../../shared/components/ProtectedComponentAdminPage";
 import { rolesListConstant } from "../../../shared/constants/roles-list.constant";
 import { ProtectedComponentHotelPage } from "../../../shared/components/ProtectedComponentHotelPage";
+import { ProtectedComponentUserPage } from "../../../shared/components/ProtectedComponentUserPage";
 
 export const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,12 +66,21 @@ export const Nav = () => {
           >
             Inicio
           </Link>
-          <a
+
+          <ProtectedComponentUserPage requiredRoles={[rolesListConstant.USER]}>
+            <Link
+              to={"/createHotel"}
+              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            >
+              Crea tu Hotel
+            </Link>
+          </ProtectedComponentUserPage>
+          {/* <a
             href="#"
             className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
           >
             Contacto
-          </a>
+          </a> */}
           <a
             href="#"
             className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
@@ -122,12 +132,22 @@ export const Nav = () => {
               >
                 Inicio
               </Link>
-              <a
+              <ProtectedComponentUserPage
+                requiredRoles={[rolesListConstant.USER]}
+              >
+                <Link
+                  to={"/createHotel"}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                >
+                  Crea tu Hotel
+                </Link>
+              </ProtectedComponentUserPage>
+              {/* <a
                 href="#"
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
               >
                 Contacto
-              </a>
+              </a> */}
               <a
                 href="#"
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"

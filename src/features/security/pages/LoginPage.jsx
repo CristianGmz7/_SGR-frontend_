@@ -48,7 +48,7 @@ export const LoginPage = () => {
   //validacion de loading === true mostrar mensaje de espera
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 px-4 py-12 sm:px-6 lg:px-8">
+  <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 px-4 py-12 sm:px-6 lg:px-8">
     <div className="mx-auto w-full max-w-md space-y-8 p-8 bg-white rounded-lg shadow-2xl">
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-blue-800">Bienvenido</h1>
@@ -58,7 +58,7 @@ export const LoginPage = () => {
         <form onSubmit={formik.handleSubmit}>
           <div>
             <label 
-              htmlFor="username" 
+              htmlFor="email" 
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Correo Electrónico
@@ -115,7 +115,7 @@ export const LoginPage = () => {
       <div className="text-center mt-4">
         <p className="text-sm text-gray-600">
           ¿No tienes una cuenta?{" "}
-          <Link to="#" className="font-medium text-blue-600 hover:text-blue-500">
+          <Link to="/security/register" className="font-medium text-blue-600 hover:text-blue-500">
             Regístrate
           </Link>
         </p>

@@ -50,7 +50,7 @@ export const RoomCard = ({
             </Link>
             o{" "}
             <Link
-              to="#"
+              to="/security/register"
               className="hover:underline cursor-pointer transition-colors hover:text-blue-800"
             >
               Regístrate

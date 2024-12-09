@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Footer, Nav, SideBar } from "../../client/components"
-import { LoginPage } from "../pages"
+import { LoginPage, RegisterPage } from "../pages"
 
 export const SecurityRouter = () => {
   return (
@@ -11,6 +11,7 @@ export const SecurityRouter = () => {
         <div className="flex-1 ml-14 md:ml-48">
           <Routes>
             <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/register" element={<RegisterPage/>}/>
             <Route path="/*" element={<Navigate to={"/security/login"}/>}/>
           </Routes>
         </div>

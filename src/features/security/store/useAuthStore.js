@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { loginAsync } from '../../../shared/actions/auth/auth.action';
+import { loginAsync, registerAsync } from '../../../shared/actions/auth/auth.action';
 import { jwtDecode } from 'jwt-decode'
 
 export const useAuthStore = create((set, get) => ({
@@ -13,6 +13,34 @@ export const useAuthStore = create((set, get) => ({
   login: async ( form ) => {
 
     const { status, data, message } = await loginAsync(form);
+
+    if(status){
+      set({
+        error: false,
+        user: {
+          email: data.email,
+          tokenExpiration: data.tokenExpiration
+        },
+        token: data.token,
+        refreshToken: data.refreshToken,
+        isAuthenticated: true,
+        message: message
+      });
+
+      localStorage.setItem('user', JSON.stringify(get().user ?? {}));
+      localStorage.setItem('token', get().token);
+      localStorage.setItem('refreshToken', get().refreshToken);
+
+      return;
+
+    }
+
+    set({message: message, error: true});
+    return;
+
+  },
+  register: async ( form ) => {
+    const { status, data, message } = await registerAsync(form);
 
     if(status){
       set({
