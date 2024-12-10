@@ -21,6 +21,8 @@ import {
   AiFillLike,
   AiFillDislike,
 } from "react-icons/ai";
+import Select from "react-select";
+
 
 export const HotelRoomList = () => {
   const { hotelId } = useParams();
@@ -155,7 +157,7 @@ export const HotelRoomList = () => {
   });
 
   const { roomsByHotelData, isLoading, error, loadRoomsByHotel } = useRooms();
-  const { currentPage, handlePageChange, setFetching } =
+  const { currentPage, moreFilters , handlePageChange, setFetching, setMoreFilters } =
     usePaginationGetRoomsByHotelAndBetweenDates(
       loadRoomsByHotel,
       filter?.startDate,
@@ -163,11 +165,34 @@ export const HotelRoomList = () => {
       hotelId
     );
 
+    
+  const optionsTypeRom = [
+    { value: "", label: "No interesa" },
+    { value: "SENCILLA", label: "SENCILLA" },
+    { value: "DOBLE", label: "DOBLE" },
+    { value: "SUITE", label: "SUITE" },
+  ];
+
+  const resetFilters = () => {
+    console.log("LIMPIADO FILTROS")
+    setMoreFilters((prev) => ({
+      ...prev,
+      priceMin: -1,
+      priceMax: -1,
+      typeRoom: "",
+    }))
+  };
+
   // Función para manejar la validación y aplicar el filtro de fechas
   const handleFilterClick = () => {
     //verifica que fecha inicio no se mayor que fecha fin
     if (startDate > finishDate) {
       toast.warn("La fecha de inicio no puede ser mayor a la fecha de fin");
+      return;
+    }
+
+    if (moreFilters.priceMin > moreFilters.priceMax) {
+      toast.warn("El precio minimo no puede ser mayor que el precio maximo");
       return;
     }
 
@@ -182,6 +207,7 @@ export const HotelRoomList = () => {
     //volver a hacer la petición al backend
     setFetching(true);
   };
+  
 
   return (
     //LocalizationProvider para configurar el idioma de los DatePickers
@@ -271,6 +297,90 @@ export const HotelRoomList = () => {
               {/* Fin Botón de filtrar */}
             </div>
             {/* Fin Campos de check-in, check-out y botón de filtrar */}
+
+            {/* Inicio botones filtro por precio y tipo de habitaciones */}
+            <div>
+              {/* PRECIO MINIMO */}
+              <div>
+                <label
+                    htmlFor="priceMin"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Precio mínimo
+                  </label>
+                <input
+                  id="priceMin"
+                  name="priceMin"
+                  type="number" 
+                  value={moreFilters.priceMin < 0 ? 0 : moreFilters.priceMin} 
+                  onChange={(e) => {
+                    setMoreFilters((prev) => ({
+                      ...prev,
+                      priceMin: parseFloat(e.target.value) || 0,
+                    }));
+                  }} 
+                  placeholder="Ingrese el precio minimo" 
+                />
+              </div>
+              {/* PRECIO MAXIMO */}
+              <div>
+                <label
+                    htmlFor="priceMax"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Precio máximo
+                  </label>
+                <input
+                  id="priceMax"
+                  name="priceMax"
+                  type="number" 
+                  value={moreFilters.priceMax < 0 ? 0 : moreFilters.priceMax} 
+                  onChange={(e) => {
+                    setMoreFilters((prev) => ({
+                      ...prev,
+                      priceMax: parseFloat(e.target.value) || 0,
+                    }));
+                  }} 
+                  placeholder="Ingrese el precio maximo" 
+                />
+              </div>
+              {/* TIPO HABITACION */}
+              <div>
+                <label
+                  htmlFor="typeRoom"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Tipo de Habitación
+                </label>
+                <Select
+                  id="typeRoom"
+                  options={optionsTypeRom}
+                  placeholder="Tipo de habitación"
+                  noOptionsMessage={() =>
+                    error ? "Error cargando datos" : "No se encontraron resultados"
+                  }
+                  value={
+                    moreFilters.typeRoom
+                      ? optionsTypeRom.find((opt) => opt.value === moreFilters.typeRoom)
+                      : null
+                  }
+                  onChange={(option) => {
+                    setMoreFilters((prev) => ({
+                      ...prev,
+                      typeRoom: option?.value || "",
+                    }));
+                  }}
+                />
+              </div>
+            </div>
+            {/* Fin botones filtro por precio y tipo de habitaciones */}
+          <button
+            type="button"
+            className="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            onClick={resetFilters}
+          >
+            Limpiar filtros
+          </button>
           </div>
           {/* Fin de div información hotel y campos de check-in y check-out*/}
 

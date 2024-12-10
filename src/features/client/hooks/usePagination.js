@@ -45,14 +45,19 @@ export const usePagination = (loadData) => {
 export const usePaginationGetRoomsByHotelAndBetweenDates = (loadData, filterStartDate, filterEndDate, hotelId) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
+  const [moreFilters, setMoreFilters] = useState({
+    priceMin: -1,
+    priceMax: -1,
+    typeRoom: "",
+  });
 
   useEffect(() => {
     //añadio hotelId por la parte de editar reserva
     if (fetching && hotelId) {
-      loadData(hotelId, currentPage, filterStartDate, filterEndDate); // Carga los datos para la página actual
+      loadData(hotelId, currentPage, filterStartDate, filterEndDate, moreFilters.priceMin, moreFilters.priceMax, moreFilters.typeRoom); // Carga los datos para la página actual
       setFetching(false); // Cambia el estado de fetching a false
     }
-  }, [fetching, currentPage, loadData, hotelId, filterStartDate, filterEndDate]);
+  }, [fetching, currentPage, loadData, hotelId, filterStartDate, filterEndDate, moreFilters.priceMin, moreFilters.priceMax, moreFilters.typeRoom]);
 
   const handlePageChange = (_event, page) => {
     setCurrentPage(page); // Actualiza la página actual
@@ -61,6 +66,8 @@ export const usePaginationGetRoomsByHotelAndBetweenDates = (loadData, filterStar
 
   return {
     currentPage,
+    moreFilters,
+    setMoreFilters,
     handlePageChange,
     setFetching,
   };

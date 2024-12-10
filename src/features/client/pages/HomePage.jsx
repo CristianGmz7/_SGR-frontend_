@@ -1,8 +1,9 @@
 import { CircularProgress, Pagination } from "@mui/material";
-import { useHotels, usePagination, usePaginationHotelsForUsers } from "../hooks";
+import { useHotels, usePaginationHotelsForUsers } from "../hooks";
 import {
   CancellationPoliciesModal,
   CreateHotelAfterRegisterModal,
+  FAQModal,
   HighlightedFeaturesModal,
   HotelCard,
 } from "../components";
@@ -25,6 +26,17 @@ export const HomePage = () => {
     setMoreFilters
   } = usePaginationHotelsForUsers(loadHotelsData);
 
+  const resetFilters = () => {
+    console.log("LIMPIADO FILTROS")
+    setMoreFilters((prev) => ({
+      ...prev,
+      departmentFilter: { code: "", name: "" },
+      cityFilter: "",
+      starsFilter: 0,
+      rangeReactions: { minRange: -1, maxRange: -1}
+    }))
+  };
+
   const recentlyRegistered = useClientStore((state) => state.recentlyRegistered);
   const setNotRecentlyRegistered = useClientStore((state) => state.setNotRecentlyRegistered);
 
@@ -32,6 +44,7 @@ export const HomePage = () => {
   const [homePageModals, setHomePageModals] = useState({
     showCancePoliModal: false,
     showHighLightedFeatures: false,
+    showFAQModal: false
   });
 
   const optionsDepartments = departmentsHonduras.map((dp) => ({
@@ -113,6 +126,11 @@ export const HomePage = () => {
               noOptionsMessage={() =>
                 error ? "Error cargando datos" : "No se encontraron resultados"
               }
+              value={
+                moreFilters.departmentFilter.code
+                  ? { value: moreFilters.departmentFilter.code, label: moreFilters.departmentFilter.name }
+                  : null
+              }
               onChange={(option) => {
                 setMoreFilters((prev) => ({
                   ...prev,
@@ -139,6 +157,11 @@ export const HomePage = () => {
               noOptionsMessage={() =>
                 error ? "Error cargando datos" : "No se encontraron resultados"
               }
+              value={
+                moreFilters.cityFilter
+                  ? { value: moreFilters.cityFilter, label: moreFilters.cityFilter }
+                  : null
+              }
               onChange={(option) => {
                 setMoreFilters((prev) => ({
                   ...prev,
@@ -161,6 +184,11 @@ export const HomePage = () => {
               placeholder="Cantidad de estrellas a filtrar hoteles"
               noOptionsMessage={() =>
                 error ? "Error cargando datos" : "No se encontraron resultados"
+              }
+              value={
+                moreFilters.starsFilter
+                  ? optionsStart.find((opt) => opt.value === moreFilters.starsFilter)
+                  : null
               }
               onChange={(option) => {
                 setMoreFilters((prev) => ({
@@ -185,6 +213,15 @@ export const HomePage = () => {
               noOptionsMessage={() =>
                 error ? "Error cargando datos" : "No se encontraron resultados"
               }
+              value={
+                moreFilters.rangeReactions.minRange !== -1
+                  ? optionsRangeReactions.find(
+                      (opt) =>
+                        opt.value.minRange === moreFilters.rangeReactions.minRange &&
+                        opt.value.maxRange === moreFilters.rangeReactions.maxRange
+                    )
+                  : null
+              }
               onChange={(option) => {
                 setMoreFilters((prev) => ({
                   ...prev,
@@ -198,9 +235,17 @@ export const HomePage = () => {
           </div>
           <button
             //añadir typesubmit
+            type="submit"
             className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             Filtrar
+          </button>
+          <button
+            type="button"
+            className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            onClick={resetFilters}
+          >
+            Limpiar filtros
           </button>
         </form>
         
@@ -231,20 +276,24 @@ export const HomePage = () => {
       <section className="mt-12 md:mt-16 lg:mt-20 px-4 md:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-6">Más información</h2>
         <div className="información grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="contacto">
-            <h3 className="text-xl font-bold mb-2">Contacto</h3>
+          <div className="preguntas-frecuentes">
+            <h3 className="text-xl font-bold mb-2">Preguntas frecuentes</h3>
             <p className="text-muted-foreground mb-4">
-              Puedes comunicarte con nosotros a través de nuestro formulario de
-              contacto.
+              Revisa cuales son las preguntas mas frecuentes al navegar en nuestra pagina 
             </p>
-            <a
-              href="#"
+            <button
+              onClick={() =>
+                setHomePageModals((prev) => ({
+                  ...prev,
+                  showFAQModal: true,
+                }))
+              }
               className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-blue-600 
               text-white font-medium transition-colors hover:bg-purple-700 focus:outline-none 
               focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
             >
-              Contactar
-            </a>
+              Ver preguntas frecuentes
+            </button>
           </div>
           <div className="política-cancelación">
             <h3 className="text-xl font-bold mb-2">Política de cancelación</h3>
@@ -304,6 +353,12 @@ export const HomePage = () => {
       />
       <CreateHotelAfterRegisterModal 
         visible={recentlyRegistered} onClose={setNotRecentlyRegistered}
+      />
+      <FAQModal 
+        onClose={() => 
+          setHomePageModals((prev) => ({ ...prev, showFAQModal: false }))
+        }
+        visible={homePageModals.showFAQModal}
       />
     </div>
   );

@@ -30,7 +30,7 @@ export const useAuthStore = create((set, get) => ({
       localStorage.setItem('user', JSON.stringify(get().user ?? {}));
       localStorage.setItem('token', get().token);
       localStorage.setItem('refreshToken', get().refreshToken);
-
+      localStorage.setItem('navUserLogged', JSON.stringify({fullName: data.fullName, profilePictureUrl: data.profilePictureUrl}));
       return;
 
     }
@@ -58,6 +58,7 @@ export const useAuthStore = create((set, get) => ({
       localStorage.setItem('user', JSON.stringify(get().user ?? {}));
       localStorage.setItem('token', get().token);
       localStorage.setItem('refreshToken', get().refreshToken);
+      localStorage.setItem('navUserLogged', JSON.stringify({fullName: data.fullName, profilePictureUrl: data.profilePictureUrl}));
 
       return;
 

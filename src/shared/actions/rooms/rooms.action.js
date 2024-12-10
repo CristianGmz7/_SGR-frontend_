@@ -1,9 +1,9 @@
 import { sgrApi } from "../../../config/api"
 
-export const getAllRoomsByHotelApi = async (hotelId, page, filterStartDate, filterEndDate) => {
+export const getAllRoomsByHotelApi = async (hotelId, page, filterStartDate, filterEndDate, priceMin, priceMax, type) => {
   try {
     const { data } = await sgrApi.get(
-      `/rooms/GetByHotel/${hotelId}?page=${page}&filterStartDate=${filterStartDate}&filterEndDate=${filterEndDate}`
+      `/rooms/GetByHotel/${hotelId}?page=${page}&filterStartDate=${filterStartDate}&filterEndDate=${filterEndDate}&priceMin=${priceMin}&priceMax=${priceMax}&type=${type}`
     );
 
     // console.log("desde el action asegurandose que se disparé la peticion");

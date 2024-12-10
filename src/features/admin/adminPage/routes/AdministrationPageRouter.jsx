@@ -4,7 +4,7 @@ import { CreateHotelPage, DashboardAdminPage } from "../pages"
 
 export const AdministrationPageRouter = () => {
   return (
-    <div className="overflow-x-hidden bg-gray-100 w-screen h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden bg-gray-100 w-screen pt-16">
       <Nav/>
       <div className="px-6 py-8 flex">
         <SideBar />

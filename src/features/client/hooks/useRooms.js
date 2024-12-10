@@ -8,9 +8,9 @@ export const useRooms = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadRoomsByHotel = async (hotelId, page, filterStartDate, filterEndDate) => {
+  const loadRoomsByHotel = async (hotelId, page, filterStartDate, filterEndDate, priceMin, priceMax, type) => {
     setIsLoading(true);
-    const result = await getAllRoomsByHotelApi(hotelId, page, filterStartDate, filterEndDate);
+    const result = await getAllRoomsByHotelApi(hotelId, page, filterStartDate, filterEndDate, priceMin, priceMax, type);
     setRoomsByHotelData(result)
     setIsLoading(false);
   }

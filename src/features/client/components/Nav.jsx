@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProtectedComponentAdminPage } from "../../../shared/components/ProtectedComponentAdminPage";
 import { rolesListConstant } from "../../../shared/constants/roles-list.constant";
 import { ProtectedComponentHotelPage } from "../../../shared/components/ProtectedComponentHotelPage";
 import { ProtectedComponentUserPage } from "../../../shared/components/ProtectedComponentUserPage";
 
 export const Nav = () => {
+
+  const navUser = JSON.parse(localStorage.getItem('navUserLogged') || '{}');
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -28,135 +32,142 @@ export const Nav = () => {
   }, [isOpen]);
 
   return (
-    <header className="w-full bg-blue-50 border-b border-blue-200 shadow-lg relative z-20">
+    <header className="w-full bg-blue-50 border-b border-blue-200 shadow-lg fixed top-0 z-20">
       <div className="container flex items-center justify-between h-16 px-4 md:px-6 lg:px-8">
         <Link
           to="/home"
-          href="#"
           className="text-lg font-bold text-blue-600 hover:text-blue-800 transition-colors duration-300"
         >
           Hondu Reservas
         </Link>
-        <nav className="hidden md:flex md:gap-6 lg:gap-8">
-          <ProtectedComponentAdminPage
-            requiredRoles={[rolesListConstant.PAGEADMIN]}
-          >
-            <Link
-              to={"/administrationPage/dashboardAdminPage"}
-              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+        <div className="flex items-center gap-4">
+          {/* ESTE ES EL NAV CUANDO SE ENCUENTRA EN PANTALLAS HORIZONTALES O PCS */}
+          <nav className="hidden md:flex md:gap-6 lg:gap-8">
+            <ProtectedComponentAdminPage
+              requiredRoles={[rolesListConstant.PAGEADMIN]}
             >
-              Administración Pagina
-            </Link>
-          </ProtectedComponentAdminPage>
-
-          <ProtectedComponentHotelPage
-            requiredRoles={[rolesListConstant.HOTELADMIN]}
-          >
-            <Link
-              to={"/administrationHotelPage/dashboardHotelPage"}
-              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-            >
-              Administración Hotel
-            </Link>
-          </ProtectedComponentHotelPage>
-
-          <Link
-            to={"/home"}
-            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-          >
-            Inicio
-          </Link>
-
-          <ProtectedComponentUserPage requiredRoles={[rolesListConstant.USER]}>
-            <Link
-              to={"/createHotel"}
-              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-            >
-              Crea tu Hotel
-            </Link>
-          </ProtectedComponentUserPage>
-          {/* <a
-            href="#"
-            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-          >
-            Contacto
-          </a> */}
-          <a
-            href="#"
-            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-          >
-            Preguntas Frecuentes
-          </a>
-        </nav>
-        <button
-          type="button"
-          className="md:hidden text-blue-600 hover:text-blue-800 transition-colors duration-300"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-            <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"></path>
-          </svg>
-          <span className="sr-only">Toggle navigation</span>
-        </button>
-        {isOpen && (
-          <div
-            ref={menuRef}
-            className="absolute top-0 left-0 w-full bg-blue-50 p-4 shadow-lg rounded-b-lg"
-          >
-            <nav className="grid gap-4 py-6 px-4">
-              <ProtectedComponentAdminPage
-                requiredRoles={[rolesListConstant.PAGEADMIN]}
-              >
-                <Link
-                  to={"/administrationPage/dashboardAdminPage"}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-                >
-                  Administración Pagina
-                </Link>
-              </ProtectedComponentAdminPage>
-
-              <ProtectedComponentHotelPage
-                requiredRoles={[rolesListConstant.HOTELADMIN]}
-              >
-                <Link
-                  to={"/administrationHotelPage/dashboardHotelPage"}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-                >
-                  Administración Hotel
-                </Link>
-              </ProtectedComponentHotelPage>
-
               <Link
-                to={"/home"}
+                to={"/administrationPage/dashboardAdminPage"}
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
               >
-                Inicio
+                Administración Pagina
               </Link>
-              <ProtectedComponentUserPage
-                requiredRoles={[rolesListConstant.USER]}
+            </ProtectedComponentAdminPage>
+
+            <ProtectedComponentHotelPage
+              requiredRoles={[rolesListConstant.HOTELADMIN]}
+            >
+              <Link
+                to={"/administrationHotelPage/dashboardHotelPage"}
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
               >
+                Administración Hotel
+              </Link>
+            </ProtectedComponentHotelPage>
+
+            <Link
+              to={"/home"}
+              className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            >
+              Inicio
+            </Link>
+
+            <ProtectedComponentUserPage requiredRoles={[rolesListConstant.USER]}>
+              <Link
+                to={"/createHotel"}
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+              >
+                Crea tu Hotel
+              </Link>
+            </ProtectedComponentUserPage>
+          </nav>
+          <button
+            type="button"
+            className="md:hidden text-blue-600 hover:text-blue-800 transition-colors duration-300"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+              <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"></path>
+            </svg>
+            <span className="sr-only">Toggle navigation</span>
+          </button>
+          {/* ESTE ES EL NAV CUANDO ESTA EN PANTALLAS PEQUEÑAS */}
+          {isOpen && (
+            <div
+              ref={menuRef}
+              className="absolute top-0 left-0 w-full bg-blue-50 p-4 shadow-lg rounded-b-lg"
+            >
+              <nav className="grid gap-4 py-6 px-4">
+                <ProtectedComponentAdminPage
+                  requiredRoles={[rolesListConstant.PAGEADMIN]}
+                >
+                  <Link
+                    to={"/administrationPage/dashboardAdminPage"}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                  >
+                    Administración Pagina
+                  </Link>
+                </ProtectedComponentAdminPage>
+
+                <ProtectedComponentHotelPage
+                  requiredRoles={[rolesListConstant.HOTELADMIN]}
+                >
+                  <Link
+                    to={"/administrationHotelPage/dashboardHotelPage"}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                  >
+                    Administración Hotel
+                  </Link>
+                </ProtectedComponentHotelPage>
+
                 <Link
-                  to={"/createHotel"}
+                  to={"/home"}
                   className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
                 >
-                  Crea tu Hotel
+                  Inicio
                 </Link>
-              </ProtectedComponentUserPage>
-              {/* <a
-                href="#"
-                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-              >
-                Contacto
-              </a> */}
-              <a
-                href="#"
-                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
-              >
-                Preguntas Frecuentes
-              </a>
-            </nav>
-          </div>
-        )}
+                <ProtectedComponentUserPage
+                  requiredRoles={[rolesListConstant.USER]}
+                >
+                  <Link
+                    to={"/createHotel"}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
+                  >
+                    Crea tu Hotel
+                  </Link>
+                </ProtectedComponentUserPage>
+              </nav>
+            </div>
+          )}
+          {/* AQUI NECESITO RENDERIZAR SI ESTA LOGUEADO O NO */}
+          {
+            Object.keys(navUser).length === 0
+            ? (
+            <Link
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+              // onClick={() => navigateToLogin()} // Aquí puedes implementar tu lógica para redirigir al login
+              to="/security/login"
+            >
+              Iniciar Sesión
+            </Link>
+            )
+            : (
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => {navigate("/editUserInformation")}}
+            >
+              <img
+                src={navUser.profilePictureUrl || "https://via.placeholder.com/40"} // Avatar del usuario o un placeholder
+                alt="Avatar"
+                className="w-10 h-10 rounded-full"
+              />
+              <p className="text-sm font-medium text-blue-600 truncate max-w-xs">
+                {navUser.fullName || "Usuario Anónimo"}
+              </p>
+            </div>
+            )
+          }
+        </div>
       </div>
     </header>
   );

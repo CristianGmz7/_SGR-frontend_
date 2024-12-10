@@ -8,7 +8,7 @@ import { ProtectedLayoutIsAuthenticated, ProtectedLayoutUserPage } from "../../.
 
 export const ClientRouter = () => {
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden bg-gray-100 w-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden bg-gray-100 w-screen pt-16">
       {/* Navbar */}
       <Nav />
       
