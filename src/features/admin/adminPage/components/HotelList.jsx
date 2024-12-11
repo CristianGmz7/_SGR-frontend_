@@ -10,7 +10,7 @@ export const HotelList = ({hotelsData, isLoading, error, searchTerm,
     <div className="flex-1 p-4 flex flex-col h-full">
       {/* Botón para crear un nuevo hotel */}
       <Link
-        className="mb-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
+        className="mb-4 bg-blue-700 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md"
         to={"/administrationPage/createHotel"}
       >
         Crear nuevo hotel
@@ -34,12 +34,21 @@ export const HotelList = ({hotelsData, isLoading, error, searchTerm,
           </div>
         </form>
 
-      {/* Contenedor con scroll */}
       {
         isLoading
         ? (
-          <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center items-center h-64">
           <CircularProgress />
+        </div>
+        )
+        : hotelsData?.data?.items?.length <= 0 ?
+        (
+        <div className="flex justify-center items-center w-full">
+          <div className="flex flex-col justify-center items-center min-h-[300px] w-full bg-white">
+            <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+              No hay hoteles que mostrar
+            </div>
+          </div>
         </div>
         )
         : (      

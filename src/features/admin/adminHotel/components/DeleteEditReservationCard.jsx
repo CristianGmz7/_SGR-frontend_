@@ -52,6 +52,7 @@ export const DeleteEditReservationCard = ({ reservation, isReservationDisabled, 
         sx={{
           backgroundColor: "#f44336", // Color rojo
           color: "#fff",
+          marginRight: 1,
           "&:hover": {
             backgroundColor: "#d32f2f",
           },

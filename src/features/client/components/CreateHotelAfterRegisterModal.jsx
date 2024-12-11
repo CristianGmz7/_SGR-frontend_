@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../security/store";
+import { FaHotel } from "react-icons/fa6";
+import { BsFillSuitcase2Fill } from "react-icons/bs";
 
 export const CreateHotelAfterRegisterModal = ({visible, onClose}) => {
 
@@ -36,20 +38,7 @@ export const CreateHotelAfterRegisterModal = ({visible, onClose}) => {
             onClick={handleHotelChoose}
             className="flex flex-col items-center text-center px-4 py-6"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-24 h-24 mb-4 text-primary"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8 16v-4M16 16v-4M8 12h8M10 12V8m4 4V8m6 8a2 2 0 002-2h0a2 2 0 00-2-2H6a2 2 0 00-2 2h0a2 2 0 002 2h12z"
-              />
-            </svg>
+            <FaHotel className="w-24 h-24 mb-4 text-primary" />
             <p>
               Crea tu hotel y haz que la gente empiece a reservar en tu hotel
             </p>
@@ -64,20 +53,7 @@ export const CreateHotelAfterRegisterModal = ({visible, onClose}) => {
             onClick={handleOnClose} 
             className="flex flex-col items-center text-center px-4 py-6"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-24 h-24 mb-4 text-primary"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 8h18M5 12h14m-4 4h4M7 16h4M5 4h14"
-              />
-            </svg>
+            <BsFillSuitcase2Fill className="w-24 h-24 mb-4 text-primary" />
             <p>
               Comienza a explorar hoteles y a realizar reservas para tus viajes
             </p>

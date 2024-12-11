@@ -7,17 +7,15 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
 
   const navigate = useNavigate();
 
-  const [existsAccountDelete, setExistsAccountDelete] = useState(false);
+  const [existsRoomDelete, setExistsRoomDelete] = useState(false);
 
   //sirve para variar entre confirmar o no confirmar eliminación
   const handleToggleDeleteRoom = () => {
-    setExistsAccountDelete(!existsAccountDelete)
+    setExistsRoomDelete(!existsRoomDelete)
   }
 
   //esta función tiene que tener hook de eliminar y posiblemente un navigate
   const handleConfirmDeleteRoom = async (id) => {
-    console.log("Habitacion eliminada:", id);
-
     try{
       const result = await deleteRoom(id);
   
@@ -32,7 +30,7 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
       console.error("Error al eliminar la habitación:", error);
     }
 
-    setExistsAccountDelete(!existsAccountDelete);     //volver a mostrar editar y eliminar
+    setExistsRoomDelete(!existsRoomDelete);     //volver a mostrar editar y eliminar
   }
 
   return (
@@ -57,11 +55,12 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
         </div>
         {isEditingOrCreating ? (
           <></>
-        ) : existsAccountDelete ? (
+        ) : existsRoomDelete ? (
           <>
             <Button
               variant="contained"
               color={"warning"}
+              className="w-full"
               onClick={handleToggleDeleteRoom}
             >
               Cancelar eliminación
@@ -69,6 +68,7 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
           <Button
             variant="contained"
             color={"error"}
+            className="w-full"
             onClick={() => handleConfirmDeleteRoom(room.id)}
           >
             Confirmar eliminación
@@ -82,6 +82,7 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
               <Button
                 variant="contained"
                 color={"warning"}
+                className="w-full"
               >
                 Editar
               </Button>
@@ -89,6 +90,7 @@ export const RoomCard = ({ room, isEditingOrCreating = false, deleteRoom }) => {
             <Button
               variant="contained"
               color={"error"}
+              className="w-full"
               onClick={handleToggleDeleteRoom}
             >
               Eliminar

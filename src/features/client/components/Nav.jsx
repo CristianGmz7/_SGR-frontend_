@@ -4,6 +4,7 @@ import { ProtectedComponentAdminPage } from "../../../shared/components/Protecte
 import { rolesListConstant } from "../../../shared/constants/roles-list.constant";
 import { ProtectedComponentHotelPage } from "../../../shared/components/ProtectedComponentHotelPage";
 import { ProtectedComponentUserPage } from "../../../shared/components/ProtectedComponentUserPage";
+import { HamburgerMenu } from '../../../shared/svgs'
 
 export const Nav = () => {
 
@@ -86,9 +87,7 @@ export const Nav = () => {
             className="md:hidden text-blue-600 hover:text-blue-800 transition-colors duration-300"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
-              <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"></path>
-            </svg>
+            <HamburgerMenu />
             <span className="sr-only">Toggle navigation</span>
           </button>
           {/* ESTE ES EL NAV CUANDO ESTA EN PANTALLAS PEQUEÑAS */}

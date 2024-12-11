@@ -136,8 +136,17 @@ export const ReservationsPage = () => {
         <div className="flex justify-center items-center h-64">
         <CircularProgress />
       </div>
-      ) : (
-        // paginatedReservations?.reservations?.map((reservation) => {
+      ) : reservationsByHotelData?.data?.items?.length <= 0 ?
+      (
+        <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col justify-center items-center min-h-[300px] w-full">
+          <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+            No hay reservas realizadas en el hotel
+          </div>
+        </div>
+      </div>
+      )
+      : (
         reservationsByHotelData?.data?.items?.map((reservation) => {
           return (
             <ReservationCard key={reservation?.id} reservation={reservation} hotelId={hotelId}/>

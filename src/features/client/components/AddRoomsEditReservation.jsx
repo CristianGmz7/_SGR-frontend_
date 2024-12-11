@@ -61,51 +61,57 @@ export const AddRoomsEditReservation = ({ reservation, onAddRoom }) => {
   return (
     <>
       {/* Inicio botones filtro por precio y tipo de habitaciones */}
-      <div>
-        {/* PRECIO MINIMO */}
-        Filtros para busquedas mas avanzadas
-        <div>
-          <label
-              htmlFor="priceMin"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Precio mínimo
-            </label>
-          <input
-            id="priceMin"
-            name="priceMin"
-            type="number" 
-            value={moreFilters.priceMin < 0 ? 0 : moreFilters.priceMin} 
-            onChange={(e) => {
-              setMoreFilters((prev) => ({
-                ...prev,
-                priceMin: parseFloat(e.target.value) || 0,
-              }));
-            }} 
-            placeholder="Ingrese el precio minimo" 
-          />
-        </div>
-        {/* PRECIO MAXIMO */}
-        <div>
-          <label
-              htmlFor="priceMax"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Precio máximo
-            </label>
-          <input
-            id="priceMax"
-            name="priceMax"
-            type="number" 
-            value={moreFilters.priceMax < 0 ? 0 : moreFilters.priceMax} 
-            onChange={(e) => {
-              setMoreFilters((prev) => ({
-                ...prev,
-                priceMax: parseFloat(e.target.value) || 0,
-              }));
-            }} 
-            placeholder="Ingrese el precio maximo" 
-          />
+      <div className="p-4 rounded-lg shadow-md">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          Filtros para búsquedas mas avanzadas
+        </h2>
+        <div className="flex gap-4">
+          {/* PRECIO MINIMO */}
+          <div className="mb-4">
+            <label
+                htmlFor="priceMin"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Precio mínimo
+              </label>
+            <input
+              id="priceMin"
+              name="priceMin"
+              type="number" 
+              value={moreFilters.priceMin < 0 ? 0 : moreFilters.priceMin} 
+              onChange={(e) => {
+                setMoreFilters((prev) => ({
+                  ...prev,
+                  priceMin: parseFloat(e.target.value) || 0,
+                }));
+              }} 
+              placeholder="Ingrese el precio minimo" 
+              className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+            />
+          </div>
+          {/* PRECIO MAXIMO */}
+          <div className="mb-4">
+            <label
+                htmlFor="priceMax"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Precio máximo
+              </label>
+            <input
+              id="priceMax"
+              name="priceMax"
+              type="number" 
+              value={moreFilters.priceMax < 0 ? 0 : moreFilters.priceMax} 
+              onChange={(e) => {
+                setMoreFilters((prev) => ({
+                  ...prev,
+                  priceMax: parseFloat(e.target.value) || 0,
+                }));
+              }} 
+              placeholder="Ingrese el precio maximo" 
+              className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+            />
+          </div>
         </div>
         {/* TIPO HABITACION */}
         <div>
@@ -135,7 +141,6 @@ export const AddRoomsEditReservation = ({ reservation, onAddRoom }) => {
             }}
           />
         </div>
-      </div>
       <button
         type="button"
         className="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
@@ -143,6 +148,7 @@ export const AddRoomsEditReservation = ({ reservation, onAddRoom }) => {
       >
         Limpiar filtros
       </button>
+      </div>
       {/* Fin botones filtro por precio y tipo de habitaciones */}
       <div className="separator my-5"></div>
       {isLoading ? (

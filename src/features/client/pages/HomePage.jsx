@@ -13,6 +13,7 @@ import Select from "react-select";
 import { citiesHonduras, departmentsHonduras } from "../../../../public";
 import { useClientStore } from "../store";
 
+
 export const HomePage = () => {
   const { hotelsData, isLoading, error, loadHotelsData } = useHotels();
   const {
@@ -83,8 +84,9 @@ export const HomePage = () => {
   return (
     <div className="bg-background text-foreground">
       <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-center mb-8">
-          Bienvenido a Hondu Reservas
+        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800 
+            sm:text-5xl lg:text-6xl tracking-tight shadow-sm">
+          Bienvenido a <span className="text-blue-600">Hondu Reservas</span>
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -234,25 +236,32 @@ export const HomePage = () => {
             />
           </div>
           <button
-            //añadir typesubmit
             type="submit"
-            className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            className="mt-4 mr-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
           >
             Filtrar
           </button>
           <button
             type="button"
-            className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            className="mt-4 mr-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
             onClick={resetFilters}
           >
             Limpiar filtros
           </button>
         </form>
         
-        <section className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section className="relative grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
           {isLoading ? (
             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70">
               <CircularProgress />
+            </div>
+          ) : hotelsData?.data?.items?.length <= 0 ? (
+            <div className="flex justify-center items-center col-span-full">
+              <div className="flex flex-col justify-center items-center min-h-[300px] w-full bg-white">
+                <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+                  No hay hoteles que coincidan con tu búsqueda
+                </div>
+              </div>
             </div>
           ) : (
             hotelsData?.data?.items?.map((hotel) => (
@@ -260,6 +269,8 @@ export const HomePage = () => {
             ))
           )}
         </section>
+
+        
       </div>
       <div className="flex flex-row justify-center items-center">
         <Pagination
@@ -272,8 +283,7 @@ export const HomePage = () => {
         />
       </div>
       {/* Fin de paginación */}
-
-      <section className="mt-12 md:mt-16 lg:mt-20 px-4 md:px-6 lg:px-8">
+      <section className="mt-8 md:mt-12 lg:mt-18 px-4 md:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-6">Más información</h2>
         <div className="información grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="preguntas-frecuentes">

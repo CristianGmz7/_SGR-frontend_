@@ -15,11 +15,11 @@ export const ReservationStatusCard = ({ reservation }) => {
           borderWidth: 2,
           borderStyle: 'solid',
           borderRadius: 1,
+          marginRight: 1,
           '&:hover': {
             backgroundColor: `${reservation.condition === 'CONFIRMADA' ? '#00a135' : 'transparent'}`, // Keep the background color on hover
           },
         }}
-        className="mr-4"
       >
         Confirmado
       </Button>
