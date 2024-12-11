@@ -82,7 +82,6 @@ export const EditReservation = () => {
         captureId: captureId
     };
 
-    console.log(id, dto)
     try{
       const result = await editReservation(id, dto);
       
@@ -134,7 +133,6 @@ export const EditReservation = () => {
   useEffect(() => {
     setTotalReservation(parseFloat((costRooms + totalServices) * (calculateDays(reservation?.startDate, reservation?.finishDate) || 1)).toFixed(2))
   }, [costRooms, totalServices, reservation?.startDate, reservation?.finishDate])
-  
 
   return (
     <>
@@ -228,11 +226,6 @@ export const EditReservation = () => {
             {/* Total Reserva = ${reservation.reservationPrice} */}
             {/* $ {(costRooms + totalServices) * (daysInterval || 1)} */}
             Total Reserva = $
-            {/* {(costRooms + totalServices) *
-              calculateDays(
-                reservation?.startDate,
-                reservation?.finishDate
-              )} */}
               {totalReservation}
           </p>
         </section>

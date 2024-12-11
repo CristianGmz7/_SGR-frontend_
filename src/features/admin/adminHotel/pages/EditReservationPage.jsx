@@ -134,10 +134,7 @@ export const EditReservationPage = () => {
       0
     );
 
-  console.log(reservationDto)
-
   if (isLoading || !reservationDto) {
-    console.log("Desde CIrcularProgress")
     return (
       <div className="flex flex-auto justify-center">
         <CircularProgress />
@@ -189,12 +186,6 @@ export const EditReservationPage = () => {
                     return;
                   }
 
-                  console.log("aqui debe de quitarse la habitación");
-                  //payload que se tenia antes payload: room.roomId,
-                  // return dispatch({
-                  //   type: UPDATE_RESERVATION_ACTIONS.REMOVE_ROOM,
-                  //   payload: room.id,
-                  // });
                   onRemoveRoom(room.id)
                 }}
               />
@@ -208,18 +199,6 @@ export const EditReservationPage = () => {
             selectedServices={selectedServices}
             loading={isLoading}
             toggleService={(dto) => {
-              // if (dto?.checked) {
-              //   dispatch({
-              //     type: UPDATE_RESERVATION_ACTIONS.REMOVE_SERVICE,
-              //     //OJO CON EL MAPEO DE ESTO: antes estaba: additionalServiceId: dto.id, additionalServicePrice: dto.price, additionalServiceName: dto.name,
-              //     payload: {
-              //       id: dto.id,
-              //       price: dto.price,
-              //       name: dto.name,
-              //     },
-              //   });
-              //   return;
-              // }
 
               //SI EL SERVICIO NO ESTA SELECCIONADO
               if(!dto?.checked) {
@@ -232,16 +211,6 @@ export const EditReservationPage = () => {
                 onAddService(serviceToAdd);
                 return
               }
-
-              // dispatch({
-              //   type: UPDATE_RESERVATION_ACTIONS.ADD_SERVICE,
-              //   //OJO CON EL MAPEO DE ESTO: antes estaba: additionalServiceId: dto.id, additionalServicePrice: dto.price, additionalServiceName: dto.name,
-              //   payload: {
-              //     id: dto.id,
-              //     price: dto.price,
-              //     name: dto.name,
-              //   },
-              // });
 
               //SI EL SERVICIO SI ESTA SELECCIONADO
               const servicetoRemove = {
@@ -287,20 +256,6 @@ export const EditReservationPage = () => {
           <AddRoomsEditReservation
             reservation={reservationDto?.data}
             hotelId={hotelId}
-            // onAddRoom={(room) => {
-            //   return dispatch({
-            //     type: UPDATE_RESERVATION_ACTIONS.ADD_ROOM,
-            //     //OJO CON EL MAPEO DE ESTE PAYLOAD, antes estaba => roomId: room.id, roomPriceNight: room.priceNight, roomType: room.typeRoom, ..., roomHotelInfo: firstHotelRoomSelected,
-            //     payload: {
-            //       id: room.id,
-            //       priceNight: room.priceNight,
-            //       typeRoom: room.typeRoom,
-            //       numberRoom: room.numberRoom,
-            //       imageUrl: room.imageUrl,
-            //       hotelInfo: firstHotelRoomSelected,
-            //     },
-            //   });
-            // }}
             onAddRoom={(room) => {
               const roomToAdd = {
                 id: room.id,
@@ -329,13 +284,8 @@ export const EditReservationPage = () => {
         variant="contained"
         color="info"
         onClick={() => {
-          // dispatch({
-          //   type: UPDATE_RESERVATION_ACTIONS.CLEAR_RESERVATION,
-          //   payload: {},
-          // });
           onResetEditReservation(reservationByIdData);
         }}
-        // onClick={onResetEditReservation}
       >
         Reserva inicial
       </Button>
@@ -362,7 +312,3 @@ function ChevronLeftIcon(props) {
   );
 }
 
-{
-  /* En el componente que se encarga del mapeo de los SA (tanto las que se seleccionaron como las que estan disponibles)
-    se cambió el nombre a EditAdditionalServiceCard */
-}
