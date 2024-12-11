@@ -1,3 +1,5 @@
+import { StarAdminPageIcon } from '../../../../shared/svgs'
+
 export const HotelAdminPageCard = ({hotel, selectedHotel, setSelectedHotel}) => {
 
   const isSelected = selectedHotel?.id === hotel.id;
@@ -23,15 +25,7 @@ export const HotelAdminPageCard = ({hotel, selectedHotel, setSelectedHotel}) => 
         {/* Estrellas */}
         <div className="flex mb-1">
           {[...Array(hotel.starsMichelin)].map((_, i) => (
-            <svg
-              key={i}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              className="w-4 h-4 text-yellow-400 mr-1"
-            >
-              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.932 1.426 8.315-7.362-3.968-7.362 3.968 1.426-8.315-6.064-5.932 8.332-1.151z" />
-            </svg>
+            <StarAdminPageIcon key={i}/>
           ))}
         </div>
 
@@ -48,7 +42,7 @@ export const HotelAdminPageCard = ({hotel, selectedHotel, setSelectedHotel}) => 
       className={`self-center mr-4 font-semibold py-2 px-4 rounded-md ${
         isSelected
           ? "bg-orange-500 text-white hover:bg-orange-600"
-          : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          : "bg-gray-300 text-gray-800 hover:bg-red-600"
       }`}
       onClick={handleButtonClick}
     >

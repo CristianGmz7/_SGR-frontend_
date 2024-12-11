@@ -18,7 +18,7 @@ import {
   ChangeDatesEditReser,
   RoomReservationCard,
 } from "../components";
-
+import {ChevronLeftIcon} from '../../../../shared/svgs'
 
 export const EditReservationPage = () => {
   const navigate = useNavigate();
@@ -272,43 +272,26 @@ export const EditReservationPage = () => {
       )}
 
       {/* AGREGAR VALIDACION SIMILAR A LAS ANTERIOR PARA QUE ESTOS BOTONES SOLO SE MUESTREN SI EXISTE INFO */}
-      <Button
-        variant="contained"
-        color="warning"
-        disabled={isLoadingEditReservation}
-        onClick={() => handleEditReservation(reservationByIdData.data?.id)}
-      >
-        {isLoadingEditReservation ? "Editando..." : "Editar Reserva"}
-      </Button>
-      <Button
-        variant="contained"
-        color="info"
-        onClick={() => {
-          onResetEditReservation(reservationByIdData);
-        }}
-      >
-        Reserva inicial
-      </Button>
+      <div className="flex gap-4 mt-3 justify-center">
+        <Button
+          variant="contained"
+          color="warning"
+          disabled={isLoadingEditReservation}
+          onClick={() => handleEditReservation(reservationByIdData.data?.id)}
+        >
+          {isLoadingEditReservation ? "Editando..." : "Editar Reserva"}
+        </Button>
+        <Button
+          variant="contained"
+          color="info"
+          onClick={() => {
+            onResetEditReservation(reservationByIdData);
+          }}
+        >
+          Reserva inicial
+        </Button>
+      </div>
     </>
   );
 };
-
-function ChevronLeftIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  );
-}
 

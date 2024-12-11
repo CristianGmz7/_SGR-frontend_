@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { PayPalCheckoutEdit } from "../paypal";
 import { useEffect, useState } from "react";
+import { ChevronLeftIcon } from "../../../shared/svgs";
+
 
 export const EditReservation = () => {
   const { state: reservation, dispatch, defaultState } = useEditReservation();
@@ -268,47 +270,29 @@ export const EditReservation = () => {
           />
         </div>
       )}
-
-      <Button
-        variant="contained"
-        color="info"
-        onClick={() => {
-          dispatch({
-            type: UPDATE_RESERVATION_ACTIONS.CLEAR_RESERVATION,
-            payload: {},
-          });
-        }}
+      <div
+        style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '5px', 
+      }}
       >
-        Reserva inicial
-      </Button>
-      {/* <Button
-        variant="contained"
-        color="warning"
-        disabled={isLoadingEditReservation}
-        onClick={() => handleEditReservation(reservation.id)}
-      >
-        {isLoadingEditReservation ? "Editando..." : "Editar Reserva"}
-      </Button> */}
+        <Button
+          variant="contained"
+          color="info"
+          onClick={() => {
+            dispatch({
+              type: UPDATE_RESERVATION_ACTIONS.CLEAR_RESERVATION,
+              payload: {},
+            });
+          }}
+        >
+          Reserva inicial
+        </Button>
+      </div>
       <PayPalCheckoutEdit total={totalReservation} functionAfterPaying={handleEditReservation} reservationId={reservation.id}/>
     </>
   );
 };
 
-function ChevronLeftIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  );
-}

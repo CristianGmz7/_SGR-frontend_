@@ -20,18 +20,18 @@ export const RoomsPage = () => {
   return (
     <>
       <Link
+        className="mb-4"
         to={`/administrationHotelPage/dashboardHotelPage/createRoom/${hotelId}`}
       >
         <Button
           variant="contained"
-          // className="mb"
           //falta onclick
         >
           Crear Habitación
         </Button>
       </Link>
 
-      <form onSubmit={handleSubmit} className="flex items-center bg-white rounded-lg mb-4">
+      <form onSubmit={handleSubmit} className="mt-3 flex items-center bg-white rounded-lg mb-4">
           <div className="w-full">
             <input 
               value={searchTerm}
@@ -48,19 +48,31 @@ export const RoomsPage = () => {
             </button>
           </div>
         </form>
-      {isLoading ? (
+      {
+      isLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
-      ) : (
+      ) : roomsData?.data?.items?.rooms?.length <= 0 ?
+      (
+        <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col justify-center items-center min-h-[300px] w-full bg-white">
+          <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+            No hay habitaciones que mostrar
+          </div>
+        </div>
+      </div>
+      )
+      : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {roomsData?.data?.items?.rooms?.map((room) => (
             <RoomCard key={room.id} room={room} isEditingOrCreating={false} deleteRoom={deleteRoom}/>
             // para mostrar el renderizado se muestra en el RoomCard
           ))}
         </div>
-      )}
-            <div className="flex mt-5 justify-center">
+      )
+      }
+        <div className="flex mt-5 justify-center">
           <Pagination
             count={roomsData?.data?.totalPages}
             page={roomsData?.data?.currentPage}

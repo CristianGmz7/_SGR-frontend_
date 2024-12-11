@@ -339,7 +339,7 @@ export const CreateHotelForm = ({ setHotelDto, hotelDto }) => {
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded-md transition-colors duration-200 ease-in-out hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
             >
               Crear Hotel
             </button>

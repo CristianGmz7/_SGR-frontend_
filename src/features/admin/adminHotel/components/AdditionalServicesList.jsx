@@ -19,7 +19,7 @@ export const AdditionalServicesList = ({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
       {/* Card de Lista de servicios adicionales de reserva */}
       <h3 className="text-md font-bold mt-4 text-gray-700 mb-2">
         Servicios Adicionales

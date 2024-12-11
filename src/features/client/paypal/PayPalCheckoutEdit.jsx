@@ -20,7 +20,8 @@ export const PayPalCheckoutEdit = ({ total, functionAfterPaying, reservationId }
         currency: "USD",
       }}
     >
-      <div>
+      <div className="flex flex-col items-center justify-center mt-5">
+        <div style={{ width: "100%", maxWidth: "600px" }}>
         {
           <PayPalButtons
             key={key}
@@ -53,7 +54,8 @@ export const PayPalCheckoutEdit = ({ total, functionAfterPaying, reservationId }
             }}
           />
         }
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
     </PayPalScriptProvider>
   );

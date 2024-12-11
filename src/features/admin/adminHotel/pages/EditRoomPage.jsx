@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRooms } from "../hooks";
 import { CircularProgress } from "@mui/material";
-import { EditRoomForm, RoomCard } from "../components";
+import { EditRoomForm, RoomCard, RoomPreview } from "../components";
 //formulario y card que servirá como preview, creo que siempre sera RoomCard
 
 export const EditRoomPage = () => {
@@ -46,7 +46,8 @@ export const EditRoomPage = () => {
       <EditRoomForm setRoomDto={setRoomDto} roomDto={roomDto} editRoomInitValues={editRoomInitValues} 
         isLoading={isLoading} error={error} editRoom={editRoom} roomId={roomId}
       />
-      {roomDto && <RoomCard room={roomDto} isEditingOrCreating={true} />}
+      {/* {roomDto && <RoomCard room={roomDto} isEditingOrCreating={true} />} */}
+      {roomDto && <RoomPreview room={roomDto} isEditingOrCreating={true} />}
     </div>
   )
 }

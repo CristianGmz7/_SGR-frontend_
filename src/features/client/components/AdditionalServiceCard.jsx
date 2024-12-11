@@ -2,7 +2,7 @@ import { Checkbox } from "@mui/material";
 
 export const AdditionalServiceCard = ({ id, name, price ,checked,toggleService}) => (
   <div
-     className="bg-blue-100 rounded-lg p-4 shadow-lg hover:bg-blue-200 transition-colors"
+    className="bg-blue-100 rounded-lg p-4 shadow-lg hover:bg-blue-200 transition-colors"
   >
     <div className="flex items-center gap-2">
       <Checkbox

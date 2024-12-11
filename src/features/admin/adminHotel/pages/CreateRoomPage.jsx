@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CreateRoomForm, RoomCard } from "../components"
+import { CreateRoomForm, RoomCard, RoomPreview } from "../components"
 import { useParams } from "react-router-dom";
 
 export const CreateRoomPage = () => {
@@ -22,7 +22,8 @@ export const CreateRoomPage = () => {
       <CreateRoomForm roomDto={roomDto} setRoomDto={setRoomDto} />
       {/* <RoomPreview roomDto={roomDto}/> */}
       {/* se quitó el preview y en lugar de eso se colocó el RoomCard para mostrar la info necesaria mandando props */}
-      <RoomCard room={roomDto} isEditingOrCreating={true}/>
+      {/* <RoomCard room={roomDto} isEditingOrCreating={true}/> */}
+      {roomDto && <RoomPreview room={roomDto} isEditingOrCreating={true} />}
     </div>
   )
 }

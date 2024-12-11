@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { StarAdminPageIcon2 } from '../../../../shared/svgs'
 
 export const HotelDetail = ({selectedHotel, setSelectedHotel, setFetching, deleteHotel}) => {
 
@@ -41,15 +42,7 @@ export const HotelDetail = ({selectedHotel, setSelectedHotel, setFetching, delet
             />
             <div className="flex mb-2">
               {[...Array(selectedHotel.starsMichelin)].map((_, i) => (
-                <svg
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-yellow-400"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                </svg>
+                <StarAdminPageIcon2 key={i} />
               ))}
             </div>
             <h2 className="text-2xl font-bold mb-2">{selectedHotel.name}</h2>

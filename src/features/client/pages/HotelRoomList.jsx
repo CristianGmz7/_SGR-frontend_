@@ -226,7 +226,6 @@ export const HotelRoomList = () => {
             <p className="text-muted-foreground">
               {roomsByHotelData?.data?.items?.hotel?.description}
             </p>
-            <p>Da alguna reseña de este hotel</p>
             <div
               className={`flex space-x-4 ${
                 !isAuthenticated ? "opacity-50 pointer-events-none" : ""
@@ -291,7 +290,17 @@ export const HotelRoomList = () => {
               </div>
               {/* Fin Campo de check-out */}
               {/* Inicio Botón de filtrar */}
-              <Button onClick={handleFilterClick} variant="contained">
+              <Button 
+                onClick={handleFilterClick} 
+                variant="contained"
+                sx={{
+                  backgroundColor: "blue",
+                  "&:hover": {
+                    backgroundColor: "purple",
+                  },
+                  marginTop: 3,
+                }}              
+                >
                 Filtrar
               </Button>
               {/* Fin Botón de filtrar */}
@@ -300,49 +309,53 @@ export const HotelRoomList = () => {
 
             {/* Inicio botones filtro por precio y tipo de habitaciones */}
             <div>
-              {/* PRECIO MINIMO */}
-              <div>
-                <label
-                    htmlFor="priceMin"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Precio mínimo
-                  </label>
-                <input
-                  id="priceMin"
-                  name="priceMin"
-                  type="number" 
-                  value={moreFilters.priceMin < 0 ? 0 : moreFilters.priceMin} 
-                  onChange={(e) => {
-                    setMoreFilters((prev) => ({
-                      ...prev,
-                      priceMin: parseFloat(e.target.value) || 0,
-                    }));
-                  }} 
-                  placeholder="Ingrese el precio minimo" 
-                />
-              </div>
-              {/* PRECIO MAXIMO */}
-              <div>
-                <label
-                    htmlFor="priceMax"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Precio máximo
-                  </label>
-                <input
-                  id="priceMax"
-                  name="priceMax"
-                  type="number" 
-                  value={moreFilters.priceMax < 0 ? 0 : moreFilters.priceMax} 
-                  onChange={(e) => {
-                    setMoreFilters((prev) => ({
-                      ...prev,
-                      priceMax: parseFloat(e.target.value) || 0,
-                    }));
-                  }} 
-                  placeholder="Ingrese el precio maximo" 
-                />
+              <div className="flex gap-4">
+                {/* PRECIO MINIMO */}
+                <div>
+                  <label
+                      htmlFor="priceMin"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Precio mínimo
+                    </label>
+                  <input
+                    id="priceMin"
+                    name="priceMin"
+                    type="number" 
+                    value={moreFilters.priceMin < 0 ? 0 : moreFilters.priceMin} 
+                    onChange={(e) => {
+                      setMoreFilters((prev) => ({
+                        ...prev,
+                        priceMin: parseFloat(e.target.value) || 0,
+                      }));
+                    }} 
+                    placeholder="Ingrese el precio minimo"
+                    className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+                  />
+                </div>
+                {/* PRECIO MAXIMO */}
+                <div>
+                  <label
+                      htmlFor="priceMax"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Precio máximo
+                    </label>
+                  <input
+                    id="priceMax"
+                    name="priceMax"
+                    type="number" 
+                    value={moreFilters.priceMax < 0 ? 0 : moreFilters.priceMax} 
+                    onChange={(e) => {
+                      setMoreFilters((prev) => ({
+                        ...prev,
+                        priceMax: parseFloat(e.target.value) || 0,
+                      }));
+                    }} 
+                    placeholder="Ingrese el precio maximo" 
+                    className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+                  />
+                </div>
               </div>
               {/* TIPO HABITACION */}
               <div>
@@ -376,8 +389,7 @@ export const HotelRoomList = () => {
             {/* Fin botones filtro por precio y tipo de habitaciones */}
           <button
             type="button"
-            className="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-            onClick={resetFilters}
+            className="inline-block max-w-fit mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"            onClick={resetFilters}
           >
             Limpiar filtros
           </button>
@@ -390,10 +402,18 @@ export const HotelRoomList = () => {
             <div className="flex justify-center items-center h-64">
               <CircularProgress />
             </div>
-          ) : (
-            // si no esta cargando mostrar el contenido del listado de las habitaciones
+          ) : roomsByHotelData?.data?.items?.rooms?.length <= 0 ? 
+          (
+          <div className="flex justify-center items-center w-full">
+            <div className="flex flex-col justify-center items-center min-h-[300px] w-full bg-white">
+              <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+                No hay habitaciones que coincidan con tu búsqueda
+              </div>
+            </div>
+          </div>
+          )
+          : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {/* {rooms?.map((room) => ( */}
               {roomsByHotelData?.data?.items?.rooms?.map((room) => (
                 <RoomCard
                   key={room.id}

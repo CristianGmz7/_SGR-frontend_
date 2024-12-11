@@ -1,3 +1,4 @@
+//INCLUYENDO MANERA QUE SI NO HAY DATA SE MUESTRE MENSAJE YourReservations
 // import { ReservationCard } from "../components/ReservationCard";
 
 import { CircularProgress, Pagination } from "@mui/material";
@@ -7,6 +8,7 @@ import {
   useReservations,
 } from "../hooks";
 import { ReservationCard } from "../components";
+import { Skeleton, Alert } from '@mui/material';
 
 export const YourReservations = () => {
   //custom hooks
@@ -28,8 +30,17 @@ export const YourReservations = () => {
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
-      ) : (
-        // paginatedReservations?.reservations?.map((reservation) => {
+      ) : reservationsByClientData?.data?.items?.length <= 0
+      ? (
+      <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col justify-center items-center min-h-[300px] w-full">
+          <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+            No hay reservas realizadas
+          </div>
+        </div>
+      </div>
+      )
+      : (
         reservationsByClientData?.data?.items?.map((reservation) => {
           return (
             <ReservationCard key={reservation?.id} reservation={reservation} />

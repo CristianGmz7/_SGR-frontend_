@@ -6,6 +6,8 @@ import {
   EditAdditionalServiceForm,
 } from "../components";
 import { Link, useParams } from "react-router-dom";
+import { PlusSign, MinusSign } from "../../../../shared/svgs";
+import { CircularProgress } from "@mui/material";
 
 export const AdditionalServicesPage = () => {
   const { hotelId } = useParams();
@@ -39,28 +41,32 @@ export const AdditionalServicesPage = () => {
                 }`}
               onClick={() => setIsCreatingNewService(!isCreatingNewService)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="mr-2 h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-              {isCreatingNewService
-                ? "Cancelar creación"
-                : "Crear Servicio Adicional"}
+              {
+                isCreatingNewService ? <MinusSign /> : <PlusSign />
+              }
+              {
+                isCreatingNewService ? "Cancelar creación" : "Crear Servicio Adicional"
+              }
             </button>
           )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {additionalServicesByHotelData?.data?.map((service) => (
+          {
+          isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <CircularProgress />
+            </div>
+          ) : additionalServicesByHotelData?.data?.length <= 0 ? 
+          (
+            <div className="flex justify-center items-center col-span-full">
+              <div className="flex flex-col justify-center items-center min-h-[300px] w-full bg-white">
+                <div className="text-center text-4xl text-gray-300 font-bold opacity-50">
+                  No hay servicios adicionales que mostrar
+                </div>
+              </div>
+            </div>
+          )
+          : additionalServicesByHotelData?.data?.map((service) => (
             <AdditionalServiceCard
               key={service.id}
               service={service}

@@ -1,3 +1,5 @@
+import { StarAdminPageIcon2 } from '../../../../shared/svgs'
+
 export const HotelPreview = ({ hotelDto }) => {
   return (
     <div className="w-1/2 p-4 h-full">
@@ -20,15 +22,7 @@ export const HotelPreview = ({ hotelDto }) => {
                     ? 1
                     : hotelDto.starsMichelin,
               }).map((_, i) => (
-                <svg
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-yellow-400 fill-yellow-400"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 17.75l-6.478 4.286 2.478-7.608-6-4.536 7.664-.056 2.336-7.336 2.336 7.336 7.664.056-6 4.536 2.478 7.608z" />
-                </svg>
+                <StarAdminPageIcon2 key={i} />
               ))}
             </div>
             <h2 className="text-2xl font-bold mb-2">

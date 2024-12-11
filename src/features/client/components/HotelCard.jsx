@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+import { StarClientPageIcon } from '../../../shared/svgs'
+import {
+  AiOutlineLike,
+  AiOutlineDislike,
+  AiFillLike,
+  AiFillDislike,
+} from "react-icons/ai";
 
 export const HotelCard = ({ hotel }) => {
   return (
@@ -15,15 +22,21 @@ export const HotelCard = ({ hotel }) => {
           <div className="flex">
             {/* Crear un nuevo array cuyo tamaño es igual al número de estrellas Michellin del hotel */}
             {Array.from({ length: hotel.starsMichelin }).map((_, index) => (
-              <StarIcon key={index} className="w-5  h-5 fill-primary" />
+              <StarClientPageIcon key={index} className="w-5  h-5 fill-primary" />
             ))}
           </div>
           <h3 className="text-2xl font-bold">{hotel.name}</h3>
         </div>
-        <p className="text-gray-700 text-sm mb-4">{hotel.address}</p>
-        <p className="text-gray-500 text-sm h-[60px]">{hotel.overview}</p>
-        <p className="text-gray-500 text-sm">Total Likes {hotel.totalLikes}</p>
-        <p className="text-gray-500 text-sm">Total Dislikes {hotel.totalDislikes}</p>
+        <p className="text-gray-800 text-sm mb-4">{hotel.address}</p>
+        <p className="text-gray-700 text-sm h-[60px]">{hotel.overview}</p>
+        <div className="flex gap-2">
+          <AiOutlineLike className="h-5 w-5" />
+          <p className="text-gray-700 text-sm">{hotel.totalLikes}</p>
+        </div>
+        <div className="flex gap-2">
+          <AiOutlineDislike className="h-5 w-5" />
+          <p className="text-gray-700 text-sm">{hotel.totalDislikes}</p>
+        </div>
         <Link
           to={`/hotelRoomList/${hotel.id}`}
           className="inline-flex items-center justify-center h-10 px-6 rounded-md bg-blue-600 text-white 
@@ -36,20 +49,3 @@ export const HotelCard = ({ hotel }) => {
     </div>
   );
 };
-
-function StarIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-6 h-6 text-current"
-      fill="yellow"
-      stroke="currentColor"
-      strokeWidth="1"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
